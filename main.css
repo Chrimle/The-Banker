@@ -15,8 +15,47 @@ body {
 header {
     padding: 12px 18px;
     display: flex;
+    align-items: center; /* Vertically center children */
     background: rgba(255, 255, 255, 0.6);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+#info-btn {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: background 0.2s, box-shadow 0.2s;
+    padding: 0;
+}
+
+#info-btn:hover,
+#info-btn:focus {
+    background: #f5f5f5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    transform: translateY(-50%) scale(1.08);
+}
+
+#info-btn:active {
+    transform: translateY(-50%) scale(0.92);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+
+.info-icon {
+    pointer-events: none;
 }
 
 #table {
@@ -99,4 +138,41 @@ header {
     color: #444;
     font-weight: 600;
     opacity: 0.85;
+}
+
+.howto-popup {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.howto-popup[hidden] {
+    display: none;
+}
+.howto-popup-content {
+    background: #fff;
+    padding: 32px 24px 20px 24px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    min-width: 280px;
+    max-width: 90vw;
+    position: relative;
+    text-align: center;
+}
+.howto-popup-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+.howto-popup-close:hover {
+    color: #222;
 }
