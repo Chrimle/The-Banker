@@ -88,24 +88,18 @@
         (function () {
             const table = document.getElementById('table');
             const bills = Array.from(table.querySelectorAll('.bill'));
-            let active = null;
             let zIndexCounter = 1;
+            let active = null;
+            let downX = 0, downY = 0, startLeft = 0, startTop = 0;
+            let moved = false;
 
             bills.forEach((bill) => {
                 bill.addEventListener('pointerdown', onPointerDown);
+                bill.addEventListener('pointerup', onPointerUp);
+                bill.addEventListener('dblclick', onDblClick);
                 bill.addEventListener('pointermove', onPointerMove);
-                bill.addEventListener('pointerup', () => {
-                    if (active === bill) {
-                        bill.classList.remove('dragging');
-                        active = null;
-                    }
-                });
-                bill.addEventListener('pointercancel', () => {
-                    if (active === bill) {
-                        bill.classList.remove('dragging');
-                        active = null;
-                    }
-                });
+                bill.addEventListener('wheel', onWheel);
+                updateBillVisual(bill);
             });
 
 
@@ -116,14 +110,29 @@
 
                 active = bill;
                 const rect = bill.getBoundingClientRect();
+                const tableRect = table.getBoundingClientRect();
 
+                downX = e.clientX;
+                downY = e.clientY;
+                startLeft = rect.left - tableRect.left;
+                startTop = rect.top - tableRect.top;
                 active._offsetX = e.clientX - rect.left;
                 active._offsetY = e.clientY - rect.top;
+                moved = false;
 
                 zIndexCounter += 1;
                 bill.style.zIndex = zIndexCounter;
-
                 bill.classList.add('dragging');
+                updateBillVisual(bill);
+            }
+
+            function onPointerUp(e) {
+                if (!active) return;
+                const bill = active;
+                try { bill.releasePointerCapture(e.pointerId); } catch (_) { }
+                bill.classList.remove('dragging');
+                updateBillVisual(bill);
+                active = null;
             }
 
             function onPointerMove(e) {
@@ -137,6 +146,30 @@
                 const maxTop = table.clientHeight - bill.offsetHeight;
                 bill.style.left = Math.max(0, Math.min(maxLeft, newLeft)) + 'px';
                 bill.style.top = Math.max(0, Math.min(maxTop, newTop)) + 'px';
+            }
+
+            function onWheel(e) {
+                e.preventDefault();
+                const bill = e.currentTarget;
+                const rot = parseFloat(bill.dataset.rot || "0");
+                const step = (e.deltaY > 0) ? 5 : -5;
+                bill.dataset.rot = String(rot + step);
+                updateBillVisual(bill);
+            }
+
+            function onDblClick(e) {
+                const bill = e.currentTarget;
+                bill.dataset.flipped = (bill.dataset.flipped === "true") ? "false" : "true";
+                updateBillVisual(bill);
+            }
+
+            function updateBillVisual(b) {
+                const rot = parseFloat(b.dataset.rot || "0");
+                const flipped = b.dataset.flipped === "true";
+                const scale = b.classList.contains('dragging') ? 1.06 : 1;
+                b.style.transform = `rotate(${rot}deg) scale(${scale})`;
+                const inner = b.querySelector('.inner');
+                if (inner) inner.style.transform = `rotateY(${flipped ? 180 : 0}deg)`;
             }
         })();
     </script>
