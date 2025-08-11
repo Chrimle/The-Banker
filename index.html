@@ -21,8 +21,9 @@
         <div class="bill" data-value="" style="left:0; top:0;">
             <div class="inner">
                 <div class="face front">
-                    <div class="denom"></div>
-                    <div class="small">Common Bank</div>
+                    <div class="denom denom-topleft"></div>
+                    <div class="bill-center">Common Bank</div>
+                    <div class="denom denom-bottomright"></div>
                 </div>
                 <div class="face back">COMMON BANK — FOR GAME USE</div>
             </div>
@@ -57,7 +58,8 @@
             billValues.forEach((value, i) => {
                 const bill = billTemplate.content.firstElementChild.cloneNode(true);
                 bill.dataset.value = value;
-                bill.querySelector('.denom').textContent = `$${value}`;
+                bill.querySelector('.denom-topleft').textContent = `$${value}`;
+                bill.querySelector('.denom-bottomright').textContent = `$${value}`;
                 bill.style.left = `${20 + i * 30}px`;
                 bill.style.top = `${20 + i * 10}px`;
                 table.appendChild(bill);
