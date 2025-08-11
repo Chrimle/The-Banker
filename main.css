@@ -5,6 +5,13 @@
     --bill-h: 100px;
 }
 
+body {
+    margin: 0;
+    font-family: system-ui;
+    background: linear-gradient(180deg, var(--bg), #ded6c8);
+    color: #222;
+}
+
 header {
     padding: 12px 18px;
     display: flex;
