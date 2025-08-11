@@ -13,85 +13,38 @@
         <h1>The Banker</h1>
         <p>Welcome to the Banker game!</p>
     </header>
-    <div id="table">
-        <div class="bill" data-value="1">
+    <div id="table"></div>
+    <template id="bill-template">
+        <div class="bill" data-value="" style="left:0; top:0;">
             <div class="inner">
                 <div class="face front">
-                    <div class="denom">$1</div>
+                    <div class="denom"></div>
                     <div class="small">Common Bank</div>
                 </div>
                 <div class="face back">COMMON BANK — FOR GAME USE</div>
             </div>
         </div>
-
-        <div class="bill" data-value="2">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$2</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-
-        <div class="bill" data-value="5">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$5</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-
-        <div class="bill" data-value="10">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$10</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-
-        <div class="bill" data-value="20">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$20</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-
-        <div class="bill" data-value="50">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$50</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-
-        <div class="bill" data-value="100">
-            <div class="inner">
-                <div class="face front">
-                    <div class="denom">$100</div>
-                    <div class="small">Common Bank</div>
-                </div>
-                <div class="face back">COMMON BANK — FOR GAME USE</div>
-            </div>
-        </div>
-    </div>
+    </template>
     <script>
         (function () {
             const table = document.getElementById('table');
-            const bills = Array.from(table.querySelectorAll('.bill'));
+            const billTemplate = document.getElementById('bill-template');
+            const billValues = [1, 2, 5, 10, 20, 50, 100];
             let zIndexCounter = 1;
             let active = null;
             let downX = 0, downY = 0, startLeft = 0, startTop = 0;
             let moved = false;
+
+            billValues.forEach((value, i) => {
+                const bill = billTemplate.content.firstElementChild.cloneNode(true);
+                bill.dataset.value = value;
+                bill.querySelector('.denom').textContent = `$${value}`;
+                bill.style.left = `${20 + i * 30}px`;
+                bill.style.top = `${20 + i * 10}px`;
+                table.appendChild(bill);
+            });
+
+            const bills = Array.from(table.querySelectorAll('.bill'));
 
             bills.forEach((bill) => {
                 bill.addEventListener('pointerdown', onPointerDown);
