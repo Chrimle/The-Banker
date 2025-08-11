@@ -54,7 +54,6 @@
             </div>
         </div>
 
-
         <div class="bill" data-value="20">
             <div class="inner">
                 <div class="face front">
@@ -85,6 +84,62 @@
             </div>
         </div>
     </div>
+    <script>
+        (function () {
+            const table = document.getElementById('table');
+            const bills = Array.from(table.querySelectorAll('.bill'));
+            let active = null;
+            let zIndexCounter = 1;
+
+            bills.forEach((bill) => {
+                bill.addEventListener('pointerdown', onPointerDown);
+                bill.addEventListener('pointermove', onPointerMove);
+                bill.addEventListener('pointerup', () => {
+                    if (active === bill) {
+                        bill.classList.remove('dragging');
+                        active = null;
+                    }
+                });
+                bill.addEventListener('pointercancel', () => {
+                    if (active === bill) {
+                        bill.classList.remove('dragging');
+                        active = null;
+                    }
+                });
+            });
+
+
+            function onPointerDown(e) {
+                const bill = e.currentTarget;
+                e.preventDefault();
+                bill.setPointerCapture(e.pointerId);
+
+                active = bill;
+                const rect = bill.getBoundingClientRect();
+
+                active._offsetX = e.clientX - rect.left;
+                active._offsetY = e.clientY - rect.top;
+
+                zIndexCounter += 1;
+                bill.style.zIndex = zIndexCounter;
+
+                bill.classList.add('dragging');
+            }
+
+            function onPointerMove(e) {
+                if (!active) return;
+                const tableRect = table.getBoundingClientRect();
+                const bill = active;
+                const newLeft = e.clientX - tableRect.left - bill._offsetX;
+                const newTop = e.clientY - tableRect.top - bill._offsetY;
+
+                const maxLeft = table.clientWidth - bill.offsetWidth;
+                const maxTop = table.clientHeight - bill.offsetHeight;
+                bill.style.left = Math.max(0, Math.min(maxLeft, newLeft)) + 'px';
+                bill.style.top = Math.max(0, Math.min(maxTop, newTop)) + 'px';
+            }
+        })();
+    </script>
 </body>
 
 </html>
