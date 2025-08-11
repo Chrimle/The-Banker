@@ -120,8 +120,7 @@
                 active._offsetY = e.clientY - rect.top;
                 moved = false;
 
-                zIndexCounter += 1;
-                bill.style.zIndex = zIndexCounter;
+                bill.style.zIndex = ++zIndexCounter;
                 bill.classList.add('dragging');
                 updateBillVisual(bill);
             }
