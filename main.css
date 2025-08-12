@@ -204,6 +204,10 @@ header {
     min-width: 280px;
     max-width: 90vw;
     position: relative;
+    text-align: left;
+}
+
+.howto-popup-content h2 {
     text-align: center;
 }
 
