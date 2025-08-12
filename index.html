@@ -44,6 +44,11 @@
     <script>
         (function () {
             const table = document.getElementById('table');
+
+            table.addEventListener('wheel', (e) => {
+                e.preventDefault();
+            });
+
             const billTemplate = document.getElementById('bill-template');
             const billValues = [1, 2, 5, 10, 20, 50, 100];
             let zIndexCounter = 1;
