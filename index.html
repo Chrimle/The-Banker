@@ -122,7 +122,7 @@
                 e.preventDefault();
                 const bill = e.currentTarget;
                 const rot = parseFloat(bill.dataset.rot || "0");
-                const step = (e.deltaY > 0) ? 5 : -5;
+                const step = (e.deltaY > 0) ? 15 : -15;
                 bill.dataset.rot = String(rot + step);
                 updateBillVisual(bill);
             }
