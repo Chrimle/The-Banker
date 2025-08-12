@@ -17,10 +17,9 @@
         </button>
     </header>
     <div id="table">
-        <div class="drawer">
-            <div class="lid">
-                <div class="handle"></div>
-            </div>
+        <div class="drawer"></div>
+        <div class="lid">
+            <div class="handle"></div>
         </div>
     </div>
     <template id="bill-template">
@@ -166,7 +165,7 @@
 
             lid.addEventListener('mousedown', (e) => {
                 if (isOpen) {
-                    lid.style.transform = `translate(0px, 0px)`;
+                    lid.style.transform = `translate(-50%, 0px)`;
                     isOpen = false;
                     return;
                 }
@@ -180,7 +179,7 @@
                 let delta = e.clientY - startY;
                 if (delta < 0) {
                     let openAmount = Math.max(delta, -maxOpen);
-                    lid.style.transform = `translate(0px, ${openAmount}px)`;
+                    lid.style.transform = `translate(-50%, ${openAmount}px)`;
                 }
             });
 
@@ -188,10 +187,10 @@
                 if (!isDragging) return;
                 const matrix = new DOMMatrix(window.getComputedStyle(lid).transform || 'none');
                 if ((parseInt(matrix.m42) || 0) < -maxOpen / 2) {
-                    lid.style.transform = `translate(0px, ${-maxOpen}px)`;
+                    lid.style.transform = `translate(-50%, ${-maxOpen}px)`;
                     isOpen = true;
                 } else {
-                    lid.style.transform = `translate(0px, 0px)`;
+                    lid.style.transform = `translate(-50%, 0px)`;
                 }
                 isDragging = false;
             });

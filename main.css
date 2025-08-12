@@ -209,14 +209,15 @@ header {
 
 .lid {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    transform: translate(-50%, 0px);
+    top: 0px;
+    left: 50%;
+    width: 300px;
+    height: 167px;
     background: linear-gradient(to bottom, #777, #555);
     transition: transform 0.05s linear;
     cursor: pointer;
-    z-index: 2;
+    z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
