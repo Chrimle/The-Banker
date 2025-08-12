@@ -70,12 +70,13 @@
             billValues.forEach((value, i) => {
                 const bill = billTemplate.content.firstElementChild.cloneNode(true);
                 bill.dataset.value = value;
+                bill.dataset.rot = randomInt(0, 23) * 15;
                 bill.querySelector('.denom-topleft').textContent = value;
                 bill.querySelector('.denom-topright').textContent = value;
                 bill.querySelector('.denom-bottomright').textContent = value;
                 bill.querySelector('.denom-bottomleft').textContent = value;
                 bill.style.left = `${randomInt(0, 500)}px`;
-                bill.style.top = `${randomInt(164, 500)}px`;
+                bill.style.top = `${randomInt(200, 500)}px`;
                 table.appendChild(bill);
             });
 
