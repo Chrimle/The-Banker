@@ -16,7 +16,13 @@
             <span class="info-icon">&#x2753;</span>
         </button>
     </header>
-    <div id="table"></div>
+    <div id="table">
+        <div class="drawer">
+            <div class="lid">
+                <div class="handle"></div>
+            </div>
+        </div>
+    </div>
     <template id="bill-template">
         <div class="bill" data-value="" style="left:0; top:0;">
             <div class="inner">
@@ -149,6 +155,47 @@
                 const inner = b.querySelector('.inner');
                 if (inner) inner.style.transform = `rotateY(${flipped ? 180 : 0}deg)`;
             }
+
+            const lid = document.querySelector('.lid');
+            let isDragging = false;
+            let isOpen = false;
+            let startY = 0;
+            let currentY = 0;
+
+            const maxOpen = 130;
+
+            lid.addEventListener('mousedown', (e) => {
+                if (isOpen) {
+                    lid.style.transform = `translateY(0px)`;
+                    isOpen = false;
+                    return;
+                }
+                isDragging = true;
+                startY = e.clientY;
+                currentY = 0;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                let delta = e.clientY - startY;
+                if (delta < 0) {
+                    let openAmount = Math.max(delta, -maxOpen);
+                    lid.style.transform = `translateY(${openAmount}px)`;
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    let finalY = parseInt(lid.style.transform.replace(/[^\-0-9]/g, '')) || 0;
+                    if (finalY < -maxOpen / 2) {
+                        lid.style.transform = `translateY(${-maxOpen}px)`;
+                        isOpen = true;
+                    } else {
+                        lid.style.transform = `translateY(0px)`;
+                    }
+                }
+                isDragging = false;
+            });
         })();
         document.getElementById('info-btn').addEventListener('click', function () {
             document.getElementById('howto-popup').hidden = false;
