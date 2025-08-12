@@ -110,6 +110,16 @@ header {
     border-radius: 5px;
     font-weight: 700;
     font-size: 20px;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.05) 0,
+        rgba(0, 0, 0, 0.05) 5px,
+        transparent 5px,
+        transparent 10px
+      ),
+      linear-gradient(135deg, #f5f0e6, #d9d0b8);
+      background-blend-mode: multiply;
 }
 
 .front {
@@ -178,6 +188,10 @@ header {
     letter-spacing: 0.04em;
     pointer-events: none;
     text-align: center;
+    border-radius: 50px / 25px;
+    padding: 5px 15px;
+    border-style: double;
+    border-color: #5a5a5a;
 }
 
 .drawer {
