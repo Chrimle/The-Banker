@@ -204,6 +204,9 @@
         document.getElementById('howto-popup').addEventListener('click', function (e) {
             if (e.target === this) this.hidden = true;
         });
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 
