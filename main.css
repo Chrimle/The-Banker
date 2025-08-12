@@ -125,16 +125,6 @@ header {
     font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-.front::before {
-    position: absolute;
-    bottom: 5px;
-    left: 25px;
-    right: 5px;
-    background: #2a593f;
-    height: 4px;
-    content: '';
-}
-
 .back {
     background-color: #d8d4b4;
     transform: rotateY(180deg);
@@ -146,10 +136,9 @@ header {
 
 .bill .denom {
     position: absolute;
-    font-size: 1.4em;
     font-weight: 1000;
     color: #2a593f;
-    padding: 2px 10px;
+    padding: 0px 5px;
     border-radius: 5px;
     user-select: none;
     pointer-events: none;
@@ -158,11 +147,25 @@ header {
 .denom-topleft {
     top: 0px;
     left: 0px;
+    font-size: 1.4em;
+}
+
+.denom-topright {
+    top: 0px;
+    right: 0px;
+    font-size: 0.8em;
 }
 
 .denom-bottomright {
     bottom: 0px;
     right: 0px;
+    font-size: 1.4em;
+}
+
+.denom-bottomleft {
+    bottom: 0px;
+    left: 0px;
+    font-size: 0.8em;
 }
 
 .bill-center {

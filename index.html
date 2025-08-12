@@ -22,8 +22,10 @@
             <div class="inner">
                 <div class="face front">
                     <div class="denom denom-topleft"></div>
+                    <div class="denom denom-topright"></div>
                     <div class="bill-center">USD</div>
                     <div class="denom denom-bottomright"></div>
+                    <div class="denom denom-bottomleft"></div>
                 </div>
                 <div class="face back">United States Dollar</div>
             </div>
@@ -60,7 +62,9 @@
                 const bill = billTemplate.content.firstElementChild.cloneNode(true);
                 bill.dataset.value = value;
                 bill.querySelector('.denom-topleft').textContent = value;
+                bill.querySelector('.denom-topright').textContent = value;
                 bill.querySelector('.denom-bottomright').textContent = value;
+                bill.querySelector('.denom-bottomleft').textContent = value;
                 bill.style.left = `${20 + i * 30}px`;
                 bill.style.top = `${20 + i * 10}px`;
                 table.appendChild(bill);
