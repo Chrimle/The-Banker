@@ -63,6 +63,10 @@
             let downX = 0, downY = 0, startLeft = 0, startTop = 0;
             let moved = false;
 
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
             billValues.forEach((value, i) => {
                 const bill = billTemplate.content.firstElementChild.cloneNode(true);
                 bill.dataset.value = value;
@@ -70,8 +74,8 @@
                 bill.querySelector('.denom-topright').textContent = value;
                 bill.querySelector('.denom-bottomright').textContent = value;
                 bill.querySelector('.denom-bottomleft').textContent = value;
-                bill.style.left = `${20 + i * 30}px`;
-                bill.style.top = `${20 + i * 10}px`;
+                bill.style.left = `${randomInt(0, 500)}px`;
+                bill.style.top = `${randomInt(164, 500)}px`;
                 table.appendChild(bill);
             });
 
