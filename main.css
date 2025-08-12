@@ -16,10 +16,18 @@ body {
 header {
     padding: 12px 18px;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: left;
     background: rgb(32, 32, 32);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     position: relative;
+}
+
+header p {
+    color: #ccc;
+    margin-left: 16px;
+    margin-top: 28px;
 }
 
 #info-btn {
