@@ -166,7 +166,7 @@
 
             lid.addEventListener('mousedown', (e) => {
                 if (isOpen) {
-                    lid.style.transform = `translateY(0px)`;
+                    lid.style.transform = `translate(0px, 0px)`;
                     isOpen = false;
                     return;
                 }
@@ -180,18 +180,18 @@
                 let delta = e.clientY - startY;
                 if (delta < 0) {
                     let openAmount = Math.max(delta, -maxOpen);
-                    lid.style.transform = `translateY(${openAmount}px)`;
+                    lid.style.transform = `translate(0px, ${openAmount}px)`;
                 }
             });
 
             document.addEventListener('mouseup', () => {
                 if (!isDragging) return;
-                let finalY = parseInt(lid.style.transform.replace(/[^\-0-9]/g, '')) || 0;
-                if (finalY < -maxOpen / 2) {
-                    lid.style.transform = `translateY(${-maxOpen}px)`;
+                const matrix = new DOMMatrix(window.getComputedStyle(lid).transform || 'none');
+                if ((parseInt(matrix.m42) || 0) < -maxOpen / 2) {
+                    lid.style.transform = `translate(0px, ${-maxOpen}px)`;
                     isOpen = true;
                 } else {
-                    lid.style.transform = `translateY(0px)`;
+                    lid.style.transform = `translate(0px, 0px)`;
                 }
                 isDragging = false;
             });
