@@ -185,14 +185,13 @@
             });
 
             document.addEventListener('mouseup', () => {
-                if (isDragging) {
-                    let finalY = parseInt(lid.style.transform.replace(/[^\-0-9]/g, '')) || 0;
-                    if (finalY < -maxOpen / 2) {
-                        lid.style.transform = `translateY(${-maxOpen}px)`;
-                        isOpen = true;
-                    } else {
-                        lid.style.transform = `translateY(0px)`;
-                    }
+                if (!isDragging) return;
+                let finalY = parseInt(lid.style.transform.replace(/[^\-0-9]/g, '')) || 0;
+                if (finalY < -maxOpen / 2) {
+                    lid.style.transform = `translateY(${-maxOpen}px)`;
+                    isOpen = true;
+                } else {
+                    lid.style.transform = `translateY(0px)`;
                 }
                 isDragging = false;
             });
