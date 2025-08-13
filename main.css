@@ -103,13 +103,13 @@ footer a {
     transform-origin: center center;
     transition: box-shadow 0.08s ease, transform 0.08s ease;
     perspective: 900px;
+    border-radius: 5px;
 }
 
 .bill.dragging {
     cursor: grabbing;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 0 10px rgba(0, 0, 0);
 }
-
 
 .inner {
     width: 100%;
@@ -117,7 +117,6 @@ footer a {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.28s cubic-bezier(.2, .85, .25, 1);
-    border-radius: 5px;
 }
 
 .face {
@@ -154,7 +153,6 @@ footer a {
     justify-content: center;
     background-color: #d8d4b4;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
