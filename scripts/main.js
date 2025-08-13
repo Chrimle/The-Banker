@@ -87,7 +87,7 @@ function onPointerUp(e) {
     if (isBillInDrawer(bill)) {
         bill.dataset.rot = "0";
         updateBillVisual(bill);
-        if (isOpen) {
+        if (isLidOpen) {
             const drawerBorders = getDrawerEdges();
             bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
             bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
@@ -154,39 +154,46 @@ function updateBillVisual(b) {
 }
 
 const lid = document.querySelector('.lid');
-let isDragging = false;
-let isOpen = false;
+let isLidDragged = false;
+let isLidOpen = false;
 let startY = 0;
 let currentY = 0;
 
 const maxOpen = 130;
 
+function closeDrawerLid() {
+    isLidOpen = false;
+    lid.style.transform = `translate(-50%, 0px)`;
+    Array.from(document.getElementById('table').querySelectorAll('.bill'))
+        .filter(isBillInDrawer)
+        .forEach(bill => bill.remove()
+        );
+}
+
 lid.addEventListener('mousedown', (e) => {
-    if (isOpen) {
-        lid.style.transform = `translate(-50%, 0px)`;
-        isOpen = false;
-        return;
+    if (isLidOpen) {
+        return closeDrawerLid();
     }
-    isDragging = true;
+    isLidDragged = true;
     startY = e.clientY;
     currentY = 0;
 });
 
 document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
+    if (!isLidDragged) return;
     lid.style.transform = `translate(-50%, ${Math.min(0, Math.max(e.clientY - startY, -maxOpen))}px)`;
 });
 
 document.addEventListener('mouseup', () => {
-    if (!isDragging) return;
+    if (!isLidDragged) return;
     const matrix = new DOMMatrix(window.getComputedStyle(lid).transform || 'none');
     if ((parseInt(matrix.m42) || 0) < -maxOpen / 2) {
         lid.style.transform = `translate(-50%, ${-maxOpen}px)`;
-        isOpen = true;
+        isLidOpen = true;
     } else {
-        lid.style.transform = `translate(-50%, 0px)`;
+        closeDrawerLid();
     }
-    isDragging = false;
+    isLidDragged = false;
 });
 
 setupHowToPopup();
