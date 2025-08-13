@@ -31,30 +31,30 @@ let active = null;
 let downX = 0, downY = 0, startLeft = 0, startTop = 0;
 let moved = false;
 
-billValues.forEach((value, i) => {
+function createBill(value) {
     const bill = billTemplate.content.firstElementChild.cloneNode(true);
     bill.dataset.value = value;
-    bill.dataset.rot = randomInt(0, 23) * 15;
     bill.querySelector('.denom-topleft').textContent = value;
     bill.querySelector('.denom-topright').textContent = value;
     bill.querySelector('.denom-bottomright').textContent = value;
     bill.querySelector('.denom-bottomleft').textContent = value;
-    bill.style.left = `${randomInt(0, 500)}px`;
-    bill.style.top = `${randomInt(200, 500)}px`;
-    table.appendChild(bill);
-});
 
-const bills = Array.from(table.querySelectorAll('.bill'));
-
-bills.forEach((bill) => {
     bill.addEventListener('pointerdown', onPointerDown);
     bill.addEventListener('pointerup', onPointerUp);
     bill.addEventListener('dblclick', onDblClick);
     bill.addEventListener('pointermove', onPointerMove);
     bill.addEventListener('wheel', onWheel);
+    return bill;
+}
+
+billValues.forEach((value, i) => {
+    const bill = createBill(value);
+    bill.dataset.rot = randomInt(0, 23) * 15;
+    bill.style.left = `${randomInt(0, 500)}px`;
+    bill.style.top = `${randomInt(200, 500)}px`;
+    table.appendChild(bill);
     updateBillVisual(bill);
 });
-
 
 function onPointerDown(e) {
     const bill = e.currentTarget;
@@ -167,10 +167,23 @@ function closeDrawerLid() {
     const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
         .filter(isBillInDrawer);
 
-    const billValue = billsInDrawer.map(getBillDenomination).reduce((sum, val) => sum + val, 0);
-    console.debug(`Total in drawer: ${billValue}`);
-
-    billsInDrawer.forEach(bill => bill.remove());
+    console.debug(`Number of bills in drawer: ${billsInDrawer.length}`);
+    if (billsInDrawer.length === 0) {
+        // Deposit
+        const newBill = createBill(billValues[randomInt(0, billValues.length - 1)]);
+        const drawerBorders = getDrawerEdges();
+        newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+        newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+        setTimeout(() => {
+            table.appendChild(newBill);
+        }, 50);
+        console.debug(`Deposit Sum: $${newBill.dataset.value}`);
+    } else {
+        // Withdrawal
+        const billValue = billsInDrawer.map(getBillDenomination).reduce((sum, val) => sum + val, 0);
+        billsInDrawer.forEach(bill => bill.remove());
+        console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
+    }
 }
 
 lid.addEventListener('mousedown', (e) => {
