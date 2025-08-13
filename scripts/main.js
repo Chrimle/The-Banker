@@ -1,6 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { getBillDenomination, getValueSum } from './bills.js';
+import { getValueSum } from './bills.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
