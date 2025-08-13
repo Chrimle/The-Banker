@@ -174,11 +174,7 @@ lid.addEventListener('mousedown', (e) => {
 
 document.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    let delta = e.clientY - startY;
-    if (delta < 0) {
-        let openAmount = Math.max(delta, -maxOpen);
-        lid.style.transform = `translate(-50%, ${openAmount}px)`;
-    }
+    lid.style.transform = `translate(-50%, ${Math.min(0, Math.max(e.clientY - startY, -maxOpen))}px)`;
 });
 
 document.addEventListener('mouseup', () => {
