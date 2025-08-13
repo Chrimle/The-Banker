@@ -30,6 +30,18 @@ header p {
     margin-top: 28px;
 }
 
+footer {
+    padding: 12px 18px;
+    text-align: center;
+    background: rgb(32, 32, 32);
+    color: #ccc;
+    position: relative;
+}
+
+footer a {
+    color: #ccc;
+}
+
 #info-btn {
     position: absolute;
     top: 50%;
