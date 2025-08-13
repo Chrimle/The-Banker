@@ -1,6 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { getBillDenomination } from './bills.js';
+import { getBillDenomination, getValueSum } from './bills.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -180,7 +180,7 @@ function closeDrawerLid() {
         console.debug(`Deposit Sum: $${newBill.dataset.value}`);
     } else {
         // Withdrawal
-        const billValue = billsInDrawer.map(getBillDenomination).reduce((sum, val) => sum + val, 0);
+        const billValue = getValueSum(billsInDrawer);
         billsInDrawer.forEach(bill => bill.remove());
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
     }
