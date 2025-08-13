@@ -1,5 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
+import { getBillDenomination } from './bills.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -83,7 +84,6 @@ function onPointerUp(e) {
     try { bill.releasePointerCapture(e.pointerId); } catch (_) { }
     bill.classList.remove('dragging');
 
-    const billRect = e.currentTarget.getBoundingClientRect();
     if (isBillInDrawer(bill)) {
         bill.dataset.rot = "0";
         updateBillVisual(bill);
@@ -164,10 +164,13 @@ const maxOpen = 130;
 function closeDrawerLid() {
     isLidOpen = false;
     lid.style.transform = `translate(-50%, 0px)`;
-    Array.from(document.getElementById('table').querySelectorAll('.bill'))
-        .filter(isBillInDrawer)
-        .forEach(bill => bill.remove()
-        );
+    const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
+        .filter(isBillInDrawer);
+
+    const billValue = billsInDrawer.map(getBillDenomination).reduce((sum, val) => sum + val, 0);
+    console.debug(`Total in drawer: ${billValue}`);
+
+    billsInDrawer.forEach(bill => bill.remove());
 }
 
 lid.addEventListener('mousedown', (e) => {
