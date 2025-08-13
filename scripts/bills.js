@@ -1,4 +1,6 @@
 
+export const BILL_DENOMINATIONS = [1, 2, 5, 10, 20, 50, 100];
+
 export function getBillDenomination(bill) {
     return parseInt(bill.dataset.value, 10);
 }

@@ -1,6 +1,7 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { getValueSum } from './bills.js';
+import { BILL_DENOMINATIONS, getValueSum } from './bills.js';
+import { BUG_REPORT_URL } from './constants.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -25,7 +26,6 @@ table.addEventListener('wheel', (e) => {
 });
 
 const billTemplate = document.getElementById('bill-template');
-const billValues = [1, 2, 5, 10, 20, 50, 100];
 let zIndexCounter = 1;
 let active = null;
 let downX = 0, downY = 0, startLeft = 0, startTop = 0;
@@ -47,7 +47,7 @@ function createBill(value) {
     return bill;
 }
 
-billValues.forEach((value, i) => {
+BILL_DENOMINATIONS.forEach((value, i) => {
     const bill = createBill(value);
     bill.dataset.rot = randomInt(0, 23) * 15;
     bill.style.left = `${randomInt(0, 500)}px`;
@@ -170,7 +170,7 @@ function closeDrawerLid() {
     console.debug(`Number of bills in drawer: ${billsInDrawer.length}`);
     if (billsInDrawer.length === 0) {
         // Deposit
-        const newBill = createBill(billValues[randomInt(0, billValues.length - 1)]);
+        const newBill = createBill(BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)]);
         const drawerBorders = getDrawerEdges();
         newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
         newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
@@ -215,7 +215,7 @@ document.addEventListener('mouseup', () => {
 setupHowToPopup();
 
 document.getElementById('bug-btn').addEventListener('click', function () {
-    window.open('https://github.com/Chrimle/The-Banker/issues/new/choose', '_blank');
+    window.open(BUG_REPORT_URL, '_blank');
 });
 
 document.addEventListener('contextmenu', function (e) {
