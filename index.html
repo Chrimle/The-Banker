@@ -63,6 +63,14 @@
             let downX = 0, downY = 0, startLeft = 0, startTop = 0;
             let moved = false;
 
+            const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
+            const drawerBorders = {
+                left: drawerRect.left,
+                right: drawerRect.right,
+                top: drawerRect.top,
+                bottom: drawerRect.bottom
+            }
+
             function randomInt(min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
@@ -120,28 +128,26 @@
                 try { bill.releasePointerCapture(e.pointerId); } catch (_) { }
                 bill.classList.remove('dragging');
 
-                const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
-                const drawerBorders = {
-                    left: drawerRect.left,
-                    right: drawerRect.right,
-                    top: drawerRect.top,
-                    bottom: drawerRect.bottom
-                }
-
                 const billRect = e.currentTarget.getBoundingClientRect();
-                const billCenter = {
-                    x: billRect.left + billRect.width / 2,
-                    y: billRect.top + billRect.height / 2
-                };
-                if (billCenter.x > drawerBorders.left &&
-                    billCenter.x < drawerBorders.right && billCenter.y < drawerBorders.bottom &&
-                    billCenter.y > drawerBorders.top) {
+                if (isBillInDrawer(bill)) {
                     bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - billRect.width / 2}px`;
                     bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - billRect.height / 2}px`;
                 }
 
                 updateBillVisual(bill);
                 active = null;
+            }
+
+            function isBillInDrawer(bill) {
+                const billRect = bill.getBoundingClientRect();
+                const billCenter = {
+                    x: billRect.left + billRect.width / 2,
+                    y: billRect.top + billRect.height / 2
+                };
+                return billCenter.x > drawerBorders.left &&
+                    billCenter.x < drawerBorders.right &&
+                    billCenter.y < drawerBorders.bottom &&
+                    billCenter.y > drawerBorders.top
             }
 
             function onPointerMove(e) {
@@ -160,6 +166,7 @@
             function onWheel(e) {
                 e.preventDefault();
                 const bill = e.currentTarget;
+                if (isBillInDrawer(bill)) return;
                 const rot = parseFloat(bill.dataset.rot || "0");
                 const step = (e.deltaY > 0) ? 15 : -15;
                 bill.dataset.rot = String(rot + step);
