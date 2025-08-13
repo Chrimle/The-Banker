@@ -10,7 +10,7 @@ body {
     font-family: system-ui;
     background: linear-gradient(180deg, var(--bg), #1a1a1a);
     color: #e4e4e4;
-    user-select:none;
+    user-select: none;
 }
 
 header {
@@ -119,15 +119,13 @@ header p {
     font-weight: 700;
     font-size: 20px;
     background-image:
-      repeating-linear-gradient(
-        45deg,
-        rgba(0, 0, 0, 0.05) 0,
-        rgba(0, 0, 0, 0.05) 5px,
-        transparent 5px,
-        transparent 10px
-      ),
-      linear-gradient(135deg, #f5f0e6, #d9d0b8);
-      background-blend-mode: multiply;
+        repeating-linear-gradient(45deg,
+            rgba(0, 0, 0, 0.05) 0,
+            rgba(0, 0, 0, 0.05) 5px,
+            transparent 5px,
+            transparent 10px),
+        linear-gradient(135deg, #f5f0e6, #d9d0b8);
+    background-blend-mode: multiply;
 }
 
 .front {
@@ -292,4 +290,17 @@ header p {
 
 .howto-popup-close:hover {
     color: #222;
+}
+
+.version-pill {
+    margin-left: 10px;
+    display: flex;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background-color: #eee;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 1000;
+    font-family: sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }

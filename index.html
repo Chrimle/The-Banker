@@ -5,12 +5,16 @@
     <title>The Banker</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="version" content="42">
     <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
     <header>
-        <h1>The Banker</h1>
+        <div>
+            <h1>The Banker</h1>
+        </div>
+        <div class="version-pill"></div>
         <p><em>Manage your own bank...</em></p>
         <button id="info-btn" title="How to play">
             <span class="info-icon">&#x2753;</span>
@@ -50,6 +54,14 @@
     </div>
     <script>
         (function () {
+        const versionMeta = document.querySelector('meta[name="version"]');
+        const versionNumber = versionMeta ? versionMeta.content : "N/A";
+
+        const pill = document.querySelector(".version-pill");
+        pill.textContent = `v${versionNumber}`;
+
+
+
             const table = document.getElementById('table');
 
             table.addEventListener('wheel', (e) => {
