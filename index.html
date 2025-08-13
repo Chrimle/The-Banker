@@ -6,21 +6,27 @@
     <meta charset="utf-8">
     <meta name="copyright" content="© 2025 Chrimle. All rights reserved.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="version" content="51">
+    <meta name="version" content="52">
     <link rel="stylesheet" href="main.css">
     <script type="module" src="./scripts/main.js"></script>
 </head>
 
 <body>
     <header>
-        <div>
-            <h1>The Banker</h1>
+        <div class="left">
+            <div>
+                <h1>The Banker</h1>
+            </div>
+            <div class="version-pill"></div>
         </div>
-        <div class="version-pill"></div>
-        <p><em>Manage your own bank...</em></p>
-        <button id="info-btn" title="How to play">
-            <span class="info-icon">&#x2753;</span>
-        </button>
+        <div class="center">
+            <p><em>Manage your own bank...</em></p>
+        </div>
+        <div class="right">
+            <button id="info-btn" title="How to play">
+                <span class="info-icon">&#x2753;</span>
+            </button>
+        </div>
     </header>
     <div id="table">
         <div class="drawer"></div>

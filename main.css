@@ -14,14 +14,28 @@ body {
 }
 
 header {
-    padding: 12px 18px;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
+    padding: 0 1rem;
+    gap: 1rem;
     background: rgb(32, 32, 32);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    position: relative;
+}
+
+header .left {
+    display: flex;
+    align-items: center;
+}
+
+header .center {
+    flex: 1;
+    text-align: center;
+}
+
+header .right {
+    display: flex;
+    gap: 0.5rem;
 }
 
 header p {
@@ -43,10 +57,6 @@ footer a {
 }
 
 #info-btn {
-    position: absolute;
-    top: 50%;
-    right: 18px;
-    transform: translateY(-50%);
     background: #fff;
     border: none;
     border-radius: 50%;
