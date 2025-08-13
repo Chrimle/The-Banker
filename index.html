@@ -130,8 +130,12 @@
 
                 const billRect = e.currentTarget.getBoundingClientRect();
                 if (isBillInDrawer(bill)) {
-                    bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - billRect.width / 2}px`;
-                    bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - billRect.height / 2}px`;
+                    bill.dataset.rot = "0";
+                    updateBillVisual(bill);
+                    bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+                    bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+                    active = null;
+                    return;
                 }
 
                 updateBillVisual(bill);
