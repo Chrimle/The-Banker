@@ -5,7 +5,7 @@
     <title>The Banker</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="version" content="42">
+    <meta name="version" content="43">
     <link rel="stylesheet" href="main.css">
 </head>
 
@@ -54,13 +54,21 @@
     </div>
     <script>
         (function () {
-        const versionMeta = document.querySelector('meta[name="version"]');
-        const versionNumber = versionMeta ? versionMeta.content : "N/A";
+            const versionMeta = document.querySelector('meta[name="version"]');
+            const versionNumber = versionMeta ? versionMeta.content : "N/A";
 
-        const pill = document.querySelector(".version-pill");
-        pill.textContent = `v${versionNumber}`;
+            const pill = document.querySelector(".version-pill");
+            pill.textContent = `v${versionNumber}`;
 
-
+            function getDrawerEdges() {
+                const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
+                return {
+                    left: drawerRect.left,
+                    right: drawerRect.right,
+                    top: drawerRect.top,
+                    bottom: drawerRect.bottom
+                };
+            }
 
             const table = document.getElementById('table');
 
@@ -74,14 +82,6 @@
             let active = null;
             let downX = 0, downY = 0, startLeft = 0, startTop = 0;
             let moved = false;
-
-            const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
-            const drawerBorders = {
-                left: drawerRect.left,
-                right: drawerRect.right,
-                top: drawerRect.top,
-                bottom: drawerRect.bottom
-            }
 
             function randomInt(min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -145,6 +145,7 @@
                     bill.dataset.rot = "0";
                     updateBillVisual(bill);
                     if (isOpen) {
+                        const drawerBorders = getDrawerEdges();
                         bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
                         bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
                     } else {
@@ -164,6 +165,7 @@
                     x: billRect.left + billRect.width / 2,
                     y: billRect.top + billRect.height / 2
                 };
+                const drawerBorders = getDrawerEdges();
                 return billCenter.x > drawerBorders.left &&
                     billCenter.x < drawerBorders.right &&
                     billCenter.y < drawerBorders.bottom &&
