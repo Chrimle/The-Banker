@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="copyright" content="© 2025 Chrimle. All rights reserved.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="version" content="45">
+    <meta name="version" content="47">
     <link rel="stylesheet" href="main.css">
 </head>
 
@@ -55,6 +55,7 @@
     </div>
     <script type="module">
         import { randomInt } from './scripts/maths.js';
+        import { setupHowToPopup } from './scripts/how-to-popup.js';
 
         const versionMeta = document.querySelector('meta[name="version"]');
         const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -248,15 +249,8 @@
             isDragging = false;
         });
 
-        document.getElementById('info-btn').addEventListener('click', function () {
-            document.getElementById('howto-popup').hidden = false;
-        });
-        document.querySelector('.howto-popup-close').addEventListener('click', function () {
-            document.getElementById('howto-popup').hidden = true;
-        });
-        document.getElementById('howto-popup').addEventListener('click', function (e) {
-            if (e.target === this) this.hidden = true;
-        });
+        setupHowToPopup();
+
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
