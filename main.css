@@ -104,6 +104,7 @@ footer a {
     transition: box-shadow 0.08s ease, transform 0.08s ease;
     perspective: 900px;
     border-radius: 5px;
+    box-shadow: 0 0 1px rgba(0, 0, 0);
 }
 
 .bill.dragging {
