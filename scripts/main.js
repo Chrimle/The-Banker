@@ -192,7 +192,7 @@ document.addEventListener('mouseup', () => {
 setupHowToPopup();
 
 document.getElementById('bug-btn').addEventListener('click', function () {
-    window.open('https://github.com/Chrimle/The-Banker/issues', '_blank');
+    window.open('https://github.com/Chrimle/The-Banker/issues/new/choose', '_blank');
 });
 
 document.addEventListener('contextmenu', function (e) {
