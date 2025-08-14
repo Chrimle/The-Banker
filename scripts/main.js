@@ -29,7 +29,6 @@ const billTemplate = document.getElementById('bill-template');
 let zIndexCounter = 1;
 let active = null;
 let downX = 0, downY = 0, startLeft = 0, startTop = 0;
-let moved = false;
 
 function createBill(value) {
     const bill = billTemplate.content.firstElementChild.cloneNode(true);
@@ -71,7 +70,6 @@ function onPointerDown(e) {
     startTop = rect.top - tableRect.top;
     active._offsetX = e.clientX - rect.left;
     active._offsetY = e.clientY - rect.top;
-    moved = false;
 
     bill.style.zIndex = ++zIndexCounter;
     bill.classList.add('dragging');
@@ -94,11 +92,9 @@ function onPointerUp(e) {
         } else {
             bill.style.top = `${175}px`;
         }
-        active = null;
-        return;
+    } else {
+        updateBillVisual(bill);
     }
-
-    updateBillVisual(bill);
     active = null;
 }
 
@@ -157,7 +153,6 @@ const lid = document.querySelector('.lid');
 let isLidDragged = false;
 let isLidOpen = false;
 let startY = 0;
-let currentY = 0;
 
 const maxOpen = 130;
 
@@ -192,7 +187,6 @@ lid.addEventListener('mousedown', (e) => {
     }
     isLidDragged = true;
     startY = e.clientY;
-    currentY = 0;
 });
 
 document.addEventListener('mousemove', (e) => {
