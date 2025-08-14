@@ -46,7 +46,7 @@ function createBill(value) {
     return bill;
 }
 
-BILL_DENOMINATIONS.forEach((value, i) => {
+BILL_DENOMINATIONS.forEach((value) => {
     const bill = createBill(value);
     bill.dataset.rot = randomInt(0, 23) * 15;
     bill.style.left = `${randomInt(0, 500)}px`;
@@ -57,7 +57,6 @@ BILL_DENOMINATIONS.forEach((value, i) => {
 
 function onPointerDown(e) {
     const bill = e.currentTarget;
-    e.preventDefault();
     bill.setPointerCapture(e.pointerId);
 
     active = bill;
@@ -125,7 +124,6 @@ function onPointerMove(e) {
 }
 
 function onWheel(e) {
-    e.preventDefault();
     const bill = e.currentTarget;
     if (isBillInDrawer(bill)) return;
     const rot = parseFloat(bill.dataset.rot || "0");
