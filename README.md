@@ -8,5 +8,8 @@ The latest *main* commit will be playable over at [The Banker](https://chrimle.g
 ## Bugs & Features
 Please post them [here](https://github.com/Chrimle/The-Banker/issues/new/choose).
 
+## Privacy Policy
+The webpage features *opt-in* Google Analytics. More details [here](./privacy.html).
+
 ## License 
 > **© 2025 [Chrimle](https://www.chrimle.com/). All rights reserved.**
