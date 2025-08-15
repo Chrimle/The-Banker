@@ -289,6 +289,7 @@ footer a {
     display: none;
     position: absolute;
     top: 20px;
+    left: 15%;
     right: calc(50% + var(--drawer-w) / 2 + 20px);
     padding: 8px 12px;
     background: #fff;
@@ -296,6 +297,9 @@ footer a {
     border: 2px solid #333;
     border-radius: 8px;
     text-align: center;
+    z-index: 9999;
+    opacity: 0.75;
+    pointer-events: none;
 }
 
 .speech-bubble::after {

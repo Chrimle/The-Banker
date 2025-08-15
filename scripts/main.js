@@ -9,6 +9,28 @@ const versionNumber = versionMeta ? versionMeta.content : "N/A";
 const pill = document.querySelector(".version-pill");
 pill.textContent = `v${versionNumber}`;
 
+let requestedWithdrawalSum = 0;
+const speechBubble = document.querySelector('.speech-bubble');
+
+function spawnCustomer() {
+    requestedWithdrawalSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
+    updateSpeechBubbleWithdrawRequest();
+    showSpeechBubble();
+}
+
+function hideSpeechBubble() {
+    speechBubble.style.display = 'none';
+}
+
+function showSpeechBubble() {
+    speechBubble.style.display = 'block';
+}
+
+function updateSpeechBubbleWithdrawRequest() {
+    speechBubble.textContent = `Hello! I would like to withdraw $${requestedWithdrawalSum} please.`;
+}
+
+
 function getDrawerEdges() {
     const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
     return {
@@ -171,8 +193,19 @@ function closeDrawerLid() {
     } else {
         // Withdrawal
         const billValue = getValueSum(billsInDrawer);
-        billsInDrawer.forEach(bill => bill.remove());
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
+        if (billValue == requestedWithdrawalSum) {
+            speechBubble.textContent = `Thank you! I have withdrawn $${billValue}.`;
+            billsInDrawer.forEach(bill => bill.remove());
+            setTimeout(() => {
+                spawnCustomer();
+            }, 2000);
+        } else {
+            speechBubble.textContent = `I asked for $${requestedWithdrawalSum}, but you gave me $${billValue}.`;
+            setTimeout(() => {
+                updateSpeechBubbleWithdrawRequest();
+            }, 2000);
+        }
     }
 }
 
@@ -210,3 +243,5 @@ document.getElementById('bug-btn').addEventListener('click', function () {
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
+
+spawnCustomer();
