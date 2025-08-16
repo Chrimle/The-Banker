@@ -286,7 +286,6 @@ footer a {
 
 .speech-bubble {
     /* Hide initially */
-    display: none;
     position: absolute;
     top: 20px;
     left: 15%;
@@ -300,6 +299,7 @@ footer a {
     z-index: 9999;
     opacity: 0.75;
     pointer-events: none;
+    transition: opacity 1s ease;
 }
 
 .speech-bubble::after {

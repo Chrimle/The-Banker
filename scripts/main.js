@@ -19,11 +19,11 @@ function spawnCustomer() {
 }
 
 function hideSpeechBubble() {
-    speechBubble.style.display = 'none';
+    speechBubble.style.opacity = '0';
 }
 
 function showSpeechBubble() {
-    speechBubble.style.display = 'block';
+    speechBubble.style.opacity = '0.75';
 }
 
 function updateSpeechBubbleWithdrawRequest() {
@@ -195,8 +195,9 @@ function closeDrawerLid() {
         const billValue = getValueSum(billsInDrawer);
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
         if (billValue == requestedWithdrawalSum) {
-            speechBubble.textContent = `Thank you! I have withdrawn $${billValue}.`;
+            speechBubble.textContent = `Thank you!`;
             billsInDrawer.forEach(bill => bill.remove());
+            hideSpeechBubble();
             setTimeout(() => {
                 spawnCustomer();
             }, 2000);
