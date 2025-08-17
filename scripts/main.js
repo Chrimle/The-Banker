@@ -305,7 +305,7 @@ document.addEventListener('mouseup', () => {
         lid.style.transform = `translate(-50%, ${-maxOpen}px)`;
         isLidOpen = true;
     } else {
-        closeDrawerLid();
+        lid.style.transform = `translate(-50%, 0px)`;
     }
     isLidDragged = false;
 });
