@@ -7,6 +7,8 @@
 
 > [!IMPORTANT]  
 > When a newer version is released, ensure to *force-refresh* (`Ctrl`+`F5`) the page to retrieve the latest resource files. The game **MAY** not work as intended otherwise.
+> 
+> The game **does not function on mobile devices** at this time. 😢
 
 ---
 
