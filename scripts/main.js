@@ -2,6 +2,7 @@ import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
 import { BILL_DENOMINATIONS, getValueSum } from './bills.js';
 import { BUG_REPORT_URL } from './constants.js';
+import { TransactionType } from './transactionType.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -9,12 +10,22 @@ const versionNumber = versionMeta ? versionMeta.content : "N/A";
 const pill = document.querySelector(".version-pill");
 pill.textContent = `v${versionNumber}`;
 
-let requestedWithdrawalSum = 0;
+let customerTransactionType;
+let customerTransactionSum = 0;
+let customerDeposited = false;
 const speechBubble = document.querySelector('.speech-bubble');
 
 function spawnCustomer() {
-    requestedWithdrawalSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
-    updateSpeechBubbleWithdrawRequest();
+    customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
+    customerTransactionSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
+
+    if (customerTransactionType === TransactionType.WITHDRAWAL) {
+        updateSpeechBubbleWithdrawRequest();
+    }
+    if (customerTransactionType === TransactionType.DEPOSIT) {
+        updateSpeechBubbleDepositRequest();
+        customerDeposited = false;
+    }
     showSpeechBubble();
 }
 
@@ -27,7 +38,11 @@ function showSpeechBubble() {
 }
 
 function updateSpeechBubbleWithdrawRequest() {
-    speechBubble.textContent = `Hello! I would like to withdraw $${requestedWithdrawalSum} please.`;
+    speechBubble.textContent = `Hello! I would like to withdraw $${customerTransactionSum} please.`;
+}
+
+function updateSpeechBubbleDepositRequest() {
+    speechBubble.textContent = `Hello! I would like to deposit $${customerTransactionSum} please.`;
 }
 
 
@@ -180,21 +195,47 @@ function closeDrawerLid() {
         .filter(isBillInDrawer);
 
     console.debug(`Number of bills in drawer: ${billsInDrawer.length}`);
-    if (billsInDrawer.length === 0) {
-        // Deposit
-        const newBill = createBill(BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)]);
-        const drawerBorders = getDrawerEdges();
-        newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
-        newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
-        setTimeout(() => {
-            table.appendChild(newBill);
-        }, 50);
-        console.debug(`Deposit Sum: $${newBill.dataset.value}`);
-    } else {
-        // Withdrawal
+    if (customerTransactionType === TransactionType.DEPOSIT) {
+        if (customerDeposited === false) {
+            if (billsInDrawer.length === 0) {
+                const newBill = createBill(customerTransactionSum);
+                const drawerBorders = getDrawerEdges();
+                newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+                newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+                setTimeout(() => {
+                    table.appendChild(newBill);
+                }, 50);
+                console.debug(`Deposit Sum: $${newBill.dataset.value}`);
+                customerDeposited = true;
+                return;
+            } else {
+                speechBubble.textContent = `I asked to make a deposit, please empty the Transfer Box.`;
+                setTimeout(() => {
+                    updateSpeechBubbleDepositRequest();
+                }, 2000);
+                return;
+            }
+        } else {
+            if (billsInDrawer.length === 0) {
+                speechBubble.textContent = `Thank you!`;
+                hideSpeechBubble();
+                setTimeout(() => {
+                    spawnCustomer();
+                }, 2000);
+                return;
+            } else {
+                speechBubble.textContent = `I asked to make a deposit, please take my money.`;
+                setTimeout(() => {
+                    updateSpeechBubbleDepositRequest();
+                }, 2000);
+                return;
+            }
+        }
+    }
+    if (customerTransactionType === TransactionType.WITHDRAWAL) {
         const billValue = getValueSum(billsInDrawer);
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
-        if (billValue == requestedWithdrawalSum) {
+        if (billValue == customerTransactionSum) {
             speechBubble.textContent = `Thank you!`;
             billsInDrawer.forEach(bill => bill.remove());
             hideSpeechBubble();
@@ -202,7 +243,7 @@ function closeDrawerLid() {
                 spawnCustomer();
             }, 2000);
         } else {
-            speechBubble.textContent = `I asked for $${requestedWithdrawalSum}, but you gave me $${billValue}.`;
+            speechBubble.textContent = `I asked for $${customerTransactionSum}, but you gave me $${billValue}.`;
             setTimeout(() => {
                 updateSpeechBubbleWithdrawRequest();
             }, 2000);
