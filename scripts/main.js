@@ -18,7 +18,12 @@ const rejectButton = speechBubble.querySelector('.speech-bubble-reject');
 
 rejectButton.addEventListener('click', function () {
     console.debug('Customer rejected');
-    spawnCustomer();
+    speechBubble.querySelector('.speech-bubble-text').textContent = `Rude! 😢`;
+    hideRejectButton();
+    hideSpeechBubble();
+    setTimeout(() => {
+        spawnCustomer();
+    }, 2000);
 });
 
 function spawnCustomer() {
