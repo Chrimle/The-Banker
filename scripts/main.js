@@ -4,6 +4,7 @@ import { BILL_DENOMINATIONS, getValueSum } from './bills.js';
 import { BUG_REPORT_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
+import { SoundPlayer } from './SoundPlayer.js';
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";
@@ -263,6 +264,8 @@ function closeDrawerLid() {
 
 lid.addEventListener('mousedown', (e) => {
     if (isLidOpen) {
+        SoundPlayer.playLidSlide();
+        SoundPlayer.playLidClick();
         return closeDrawerLid();
     }
     isLidDragged = true;
@@ -271,6 +274,7 @@ lid.addEventListener('mousedown', (e) => {
 
 document.addEventListener('mousemove', (e) => {
     if (!isLidDragged) return;
+    SoundPlayer.playLidSlide();
     lid.style.transform = `translate(-50%, ${Math.min(0, Math.max(e.clientY - startY, -maxOpen))}px)`;
 });
 
@@ -284,6 +288,7 @@ document.addEventListener('mouseup', () => {
         lid.style.transform = `translate(-50%, 0px)`;
     }
     isLidDragged = false;
+    SoundPlayer.playLidClick();
 });
 
 setupHowToPopup();
