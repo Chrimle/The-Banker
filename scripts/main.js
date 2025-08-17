@@ -78,6 +78,22 @@ function updateSpeechBubbleDepositRequest() {
     speechBubble.querySelector('.speech-bubble-text').textContent = `Hello! I would like to deposit $${customerTransactionSum} please.`;
 }
 
+function updateSpeechBubbleWithdrawIncorrectSum(actualSum) {
+    speechBubble.querySelector('.speech-bubble-text').textContent = `I asked for $${customerTransactionSum}, but you gave me $${actualSum}.`;
+}
+
+function updateSpeechBubbleCompleted() {
+    speechBubble.querySelector('.speech-bubble-text').textContent = `Thank you!`;
+}
+
+function updateSpeechBubbleDepositBoxOccupied() {
+    speechBubble.querySelector('.speech-bubble-text').textContent = `I asked to make a deposit, please empty the Transfer Box.`;
+}
+
+function updateSpeechBubbleDepositNotTaken() {
+    speechBubble.querySelector('.speech-bubble-text').textContent = `I asked to make a deposit, please take my money.`;
+}
+
 
 function getDrawerEdges() {
     const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
@@ -247,7 +263,7 @@ function closeDrawerLid() {
                 hideRejectButton();
                 return;
             } else {
-                speechBubble.querySelector('.speech-bubble-text').textContent = `I asked to make a deposit, please empty the Transfer Box.`;
+                updateSpeechBubbleDepositBoxOccupied();
                 setTimeout(() => {
                     updateSpeechBubbleDepositRequest();
                 }, 2000);
@@ -255,7 +271,7 @@ function closeDrawerLid() {
             }
         } else {
             if (billsInDrawer.length === 0) {
-                speechBubble.querySelector('.speech-bubble-text').textContent = `Thank you!`;
+                updateSpeechBubbleCompleted();
                 hideRejectButton();
                 hideSpeechBubble();
                 setTimeout(() => {
@@ -263,7 +279,7 @@ function closeDrawerLid() {
                 }, 2000);
                 return;
             } else {
-                speechBubble.querySelector('.speech-bubble-text').textContent = `I asked to make a deposit, please take my money.`;
+                updateSpeechBubbleDepositNotTaken();
                 setTimeout(() => {
                     updateSpeechBubbleDepositRequest();
                 }, 2000);
@@ -275,14 +291,14 @@ function closeDrawerLid() {
         const billValue = getValueSum(billsInDrawer);
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
         if (billValue == customerTransactionSum) {
-            speechBubble.querySelector('.speech-bubble-text').textContent = `Thank you!`;
+            updateSpeechBubbleCompleted();
             billsInDrawer.forEach(bill => bill.remove());
             hideSpeechBubble();
             setTimeout(() => {
                 spawnCustomer();
             }, 2000);
         } else {
-            speechBubble.querySelector('.speech-bubble-text').textContent = `I asked for $${customerTransactionSum}, but you gave me $${billValue}.`;
+            updateSpeechBubbleWithdrawIncorrectSum(billValue);
             setTimeout(() => {
                 updateSpeechBubbleWithdrawRequest();
             }, 2000);
