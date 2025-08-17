@@ -1,5 +1,9 @@
 # The Banker
-![Static Badge](https://img.shields.io/badge/PLAY_THE_GAME_HERE-%2328a745?style=for-the-badge&link=https%3A%2F%2Fchrimle.github.io%2FThe-Banker%2F)
+<p>
+  <a href="https://chrimle.github.io/The-Banker/">
+    <img src="https://img.shields.io/badge/PLAY_THE_GAME_HERE-28a745?style=for-the-badge" alt="Play the Game Here">
+  </a>
+</p>
 
 > [!IMPORTANT]  
 > When a newer version is released, ensure to *force-refresh* (`Ctrl`+`F5`) the page to retrieve the latest resource files. The game **MAY** not work as intended otherwise.
