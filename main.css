@@ -291,18 +291,19 @@ footer a {
     left: 15%;
     right: calc(50% + var(--drawer-w) / 2 + 20px);
     padding: 8px 12px;
-    background: #fff;
+    background: rgba(256, 256, 256, 0.85);
     color: black;
     border: 2px solid #333;
     border-radius: 8px;
     text-align: center;
     z-index: 9999;
-    opacity: 0.75;
     pointer-events: none;
     transition: opacity 1s ease;
+    flex-direction: column;
 }
 
 .speech-bubble::after {
+    display: flex;
     content: "";
     position: absolute;
     top: -20px;
@@ -312,7 +313,28 @@ footer a {
     height: 0;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
-    border-bottom: 20px solid #fff;
+    border-bottom: 20px solid rgba(256, 256, 256, 0.85);
+}
+
+.speech-bubble-reject {
+    display: flex;
+    background: #ffcccc;
+    color: #cc0000;
+    border-color: #990000;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    pointer-events: all;
+    padding: 4px 8px;
+    width: fit-content;
+    justify-self: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.speech-bubble-reject:hover {
+    background: #ff9999;
+    color: #990000;
 }
 
 
