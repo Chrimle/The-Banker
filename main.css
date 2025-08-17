@@ -397,6 +397,13 @@ footer a {
     font-weight: 1000;
     font-family: sans-serif;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    pointer-events: all;
+    cursor: pointer;
+    transition: scale 0.2s ease;
+}
+
+.version-pill:hover {
+    scale: 1.25;
 }
 
 #analytics-banner {
