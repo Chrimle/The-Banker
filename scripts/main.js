@@ -297,6 +297,10 @@ document.getElementById('bug-btn').addEventListener('click', function () {
     window.open(BUG_REPORT_URL, '_blank');
 });
 
+document.getElementById('roadmap-btn').addEventListener('click', function () {
+    window.open('./roadmap.html', '_blank');
+});
+
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
