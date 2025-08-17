@@ -76,7 +76,6 @@ table.addEventListener('wheel', (e) => {
 const billTemplate = document.getElementById('bill-template');
 let zIndexCounter = 1;
 let active = null;
-let downX = 0, downY = 0;
 
 function createBill(value) {
     const bill = billTemplate.content.firstElementChild.cloneNode(true);
@@ -122,8 +121,6 @@ function onPointerDown(e) {
     active = bill;
     const rect = bill.getBoundingClientRect();
 
-    downX = e.clientX;
-    downY = e.clientY;
     active._offsetX = e.clientX - rect.left;
     active._offsetY = e.clientY - rect.top;
 
