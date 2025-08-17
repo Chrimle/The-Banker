@@ -24,7 +24,17 @@ function spawnCustomer() {
     }
     if (customerTransactionType === TransactionType.DEPOSIT) {
         updateSpeechBubbleDepositRequest();
-        customerDeposited = false;
+        if (!isLidOpen && !isLidDragged) {
+            const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
+                .filter(isBillInDrawer);
+            if (billsInDrawer.length === 0) {
+                spawnBillInDrawer(0);
+            } else {
+                customerDeposited = false;
+            }
+        } else {
+            customerDeposited = false;
+        }
     }
     showSpeechBubble();
 }
@@ -91,6 +101,18 @@ BILL_DENOMINATIONS.forEach((value) => {
     table.appendChild(bill);
     updateBillVisual(bill);
 });
+
+function spawnBillInDrawer(timeout) {
+    const newBill = createBill(customerTransactionSum);
+    const drawerBorders = getDrawerEdges();
+    newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+    newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+    setTimeout(() => {
+        table.appendChild(newBill);
+    }, timeout);
+    console.debug(`Deposit Sum: $${newBill.dataset.value}`);
+    customerDeposited = true;
+}
 
 function onPointerDown(e) {
     const bill = e.currentTarget;
@@ -198,15 +220,7 @@ function closeDrawerLid() {
     if (customerTransactionType === TransactionType.DEPOSIT) {
         if (customerDeposited === false) {
             if (billsInDrawer.length === 0) {
-                const newBill = createBill(customerTransactionSum);
-                const drawerBorders = getDrawerEdges();
-                newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
-                newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
-                setTimeout(() => {
-                    table.appendChild(newBill);
-                }, 50);
-                console.debug(`Deposit Sum: $${newBill.dataset.value}`);
-                customerDeposited = true;
+                spawnBillInDrawer(50);
                 return;
             } else {
                 speechBubble.textContent = `I asked to make a deposit, please empty the Transfer Box.`;
