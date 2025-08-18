@@ -247,7 +247,7 @@ footer a {
     left: 50%;
     width: var(--drawer-w);
     height: calc(var(--drawer-h) + 3px);
-    transition: transform 0.05s linear;
+    transition: transform 0.1s linear;
     cursor: pointer;
     z-index: 9999;
     display: flex;

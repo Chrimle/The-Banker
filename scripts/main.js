@@ -218,7 +218,7 @@ function closeDrawerLid() {
     if (customerTransactionType === TransactionType.DEPOSIT) {
         if (customerDeposited === false) {
             if (billsInDrawer.length === 0) {
-                spawnBillInDrawer(50);
+                spawnBillInDrawer(100);
                 SpeechBubble.hideRejectButton();
                 return;
             } else {
