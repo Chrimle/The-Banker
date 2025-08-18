@@ -40,7 +40,7 @@ header .right {
 }
 
 footer {
-    padding: 12px 18px;
+    padding: 5px 18px;
     text-align: center;
     background: rgb(32, 32, 32);
     color: #ccc;
@@ -84,7 +84,7 @@ footer a {
 
 #table {
     position: relative;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 165px);
     margin: 8px;
     border-radius: 10px;
     background: linear-gradient(180deg, var(--table), #221004);
