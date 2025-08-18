@@ -81,7 +81,7 @@ function spawnCustomer() {
             const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
                 .filter(isBillInDrawer);
             if (billsInDrawer.length === 0) {
-                spawnBillInDrawer(0);
+                spawnBillInDrawer();
                 SpeechBubble.hideRejectButton();
             } else {
                 customerDeposited = false;
@@ -133,14 +133,14 @@ BILL_DENOMINATIONS.forEach((value) => {
     updateBillVisual(bill);
 });
 
-function spawnBillInDrawer(timeout) {
+function spawnBillInDrawer(delay = 0) {
     const newBill = createBill(customerTransactionSum);
     const drawerBorders = getDrawerEdges();
     newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
     newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
     setTimeout(() => {
         table.appendChild(newBill);
-    }, timeout);
+    }, delay);
     console.debug(`Deposit Sum: $${newBill.dataset.value}`);
     customerDeposited = true;
 }
