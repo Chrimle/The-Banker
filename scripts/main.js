@@ -46,10 +46,8 @@ function getWeightedWithdrawal() {
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
-const speechBubble = document.querySelector('.speech-bubble');
-const rejectButton = speechBubble.querySelector('.speech-bubble-reject');
 
-rejectButton.addEventListener('click', function () {
+SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
     SpeechBubble.rejectCustomer();
     setTimeout(() => {
