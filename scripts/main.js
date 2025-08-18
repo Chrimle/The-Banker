@@ -15,6 +15,43 @@ pill.addEventListener('click', () => {
     window.open(COMMIT_HISTORY_URL, '_blank');
 });
 
+const WEIGHTED_WITHDRAWALS = [
+    { amount: 10, weight: 5 },
+    { amount: 20, weight: 8 },
+    { amount: 30, weight: 12 },
+    { amount: 40, weight: 18 },
+    { amount: 50, weight: 25 },
+    { amount: 60, weight: 35 },
+    { amount: 70, weight: 50 },
+    { amount: 80, weight: 70 },
+    { amount: 90, weight: 90 },
+    { amount: 100, weight: 100 },
+    { amount: 120, weight: 90 },
+    { amount: 150, weight: 70 },
+    { amount: 180, weight: 50 },
+    { amount: 200, weight: 35 },
+    { amount: 250, weight: 25 },
+    { amount: 300, weight: 18 },
+    { amount: 350, weight: 12 },
+    { amount: 400, weight: 8 },
+    { amount: 450, weight: 5 },
+    { amount: 500, weight: 3 },
+    { amount: 600, weight: 2 },
+    { amount: 700, weight: 1 },
+    { amount: 800, weight: 1 },
+    { amount: 900, weight: 1 },
+    { amount: 1000, weight: 1 },
+];
+
+function getWeightedWithdrawal() {
+    const totalWeight = WEIGHTED_WITHDRAWALS.reduce((sum, w) => sum + w.weight, 0);
+    let r = Math.random() * totalWeight;
+    for (const w of WEIGHTED_WITHDRAWALS) {
+        if (r < w.weight) return w.amount;
+        r -= w.weight;
+    }
+}
+
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
@@ -31,13 +68,14 @@ rejectButton.addEventListener('click', function () {
 
 function spawnCustomer() {
     customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
-    customerTransactionSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
 
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
+        customerTransactionSum = getWeightedWithdrawal();
         SpeechBubble.requestWithdraw(customerTransactionSum);
         SpeechBubble.showRejectButton();
     }
     if (customerTransactionType === TransactionType.DEPOSIT) {
+        customerTransactionSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
         SpeechBubble.requestDeposit(customerTransactionSum);
         if (!isLidOpen && !isLidDragged) {
             const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
