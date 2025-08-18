@@ -1,6 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { BILL_DENOMINATIONS, getValueSum } from './bills.js';
+import { BILL_DENOMINATIONS, createBillWithValue, getValueSum } from './bills.js';
 import { BUG_REPORT_URL, COMMIT_HISTORY_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
@@ -111,18 +111,11 @@ table.addEventListener('wheel', (e) => {
     e.preventDefault();
 });
 
-const billTemplate = document.getElementById('bill-template');
 let zIndexCounter = 1;
 let active = null;
 
 function createBill(value) {
-    const bill = billTemplate.content.firstElementChild.cloneNode(true);
-    bill.dataset.value = value;
-    bill.querySelector('.denom-topleft').textContent = value;
-    bill.querySelector('.denom-topright').textContent = value;
-    bill.querySelector('.denom-bottomright').textContent = value;
-    bill.querySelector('.denom-bottomleft').textContent = value;
-
+    const bill = createBillWithValue(value);
     bill.addEventListener('pointerdown', onPointerDown);
     bill.addEventListener('pointerup', onPointerUp);
     bill.addEventListener('dblclick', onDblClick);
