@@ -127,11 +127,17 @@ BILL_DENOMINATIONS.forEach((value) => {
     updateBillVisual(bill);
 });
 
+function moveBillToDrawer(bill) {
+    const drawerBorders = getDrawerEdges();
+    bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+    bill.style.top = `${(drawerBorders.top / 3) - (100 / 2)}px`;
+}
+
 function spawnBillInDrawer(delay = 0) {
     const newBill = createBill(customerTransactionSum);
-    const drawerBorders = getDrawerEdges();
-    newBill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
-    newBill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+    moveBillToDrawer(newBill);
+    newBill.dataset.rot = "270";
+    updateBillVisual(newBill);
     setTimeout(() => {
         table.appendChild(newBill);
     }, delay);
@@ -161,13 +167,12 @@ function onPointerUp(e) {
     bill.classList.remove('dragging');
 
     if (isBillInDrawer(bill)) {
-        bill.dataset.rot = "0";
-        updateBillVisual(bill);
         if (isLidOpen) {
-            const drawerBorders = getDrawerEdges();
-            bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
-            bill.style.top = `${(drawerBorders.bottom - drawerBorders.top) / 2 - (100 / 2)}px`;
+            moveBillToDrawer(bill);
+            updateBillVisual(bill);
         } else {
+            bill.dataset.rot = "0";
+            updateBillVisual(bill);
             bill.style.top = `${175}px`;
         }
     } else {
@@ -204,7 +209,6 @@ function onPointerMove(e) {
 
 function onWheel(e) {
     const bill = e.currentTarget;
-    if (isBillInDrawer(bill)) return;
     const rot = parseFloat(bill.dataset.rot || "0");
     const step = (e.deltaY > 0) ? 15 : -15;
     bill.dataset.rot = String(rot + step);
