@@ -46,10 +46,15 @@ function getWeightedWithdrawal() {
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
+let rejectedCount = 0;
+let withdrawCount = 0;
+let depositCount = 0;
 
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
     SpeechBubble.rejectCustomer();
+    rejectedCount++;
+    updateStatsPad();
     setTimeout(() => {
         spawnCustomer();
     }, 2000);
@@ -251,6 +256,8 @@ function closeDrawerLid() {
         } else {
             if (billsInDrawer.length === 0) {
                 SpeechBubble.satisfyCustomer();
+                depositCount++;
+                updateStatsPad();
                 setTimeout(() => {
                     spawnCustomer();
                 }, 2000);
@@ -270,6 +277,8 @@ function closeDrawerLid() {
         if (billValue == customerTransactionSum) {
             billsInDrawer.forEach(bill => bill.remove());
             SpeechBubble.satisfyCustomer();
+            withdrawCount++;
+            updateStatsPad();
             setTimeout(() => {
                 spawnCustomer();
             }, 2000);
@@ -310,6 +319,46 @@ document.addEventListener('mouseup', () => {
     isLidDragged = false;
     SoundPlayer.playLidClick();
 });
+
+const statsPad = document.getElementById('stats-pad-template').content.firstElementChild.cloneNode(true);
+
+function createStatsPad() {
+    const depositRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
+    depositRow.querySelector('.stats-pad-key').textContent = 'Deposits';
+    depositRow.querySelector('.stats-pad-value').textContent = '0';
+    statsPad.appendChild(depositRow);
+
+    const withdrawRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
+    withdrawRow.querySelector('.stats-pad-key').textContent = 'Withdraws';
+    withdrawRow.querySelector('.stats-pad-value').textContent = '0';
+    statsPad.appendChild(withdrawRow);
+
+    const totalRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
+    totalRow.querySelector('.stats-pad-key').textContent = 'Total';
+    totalRow.querySelector('.stats-pad-value').textContent = '0';
+    statsPad.appendChild(totalRow);
+
+    const rejectRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
+    rejectRow.querySelector('.stats-pad-key').textContent = 'Rejected';
+    rejectRow.querySelector('.stats-pad-value').textContent = '0';
+    statsPad.appendChild(rejectRow);
+
+    //statsPad.style.left = `${randomInt(0, 500)}px`;
+    statsPad.style.left = `0px`;
+    //statsPad.style.bottom = `${randomInt(200, 500)}px`;
+    statsPad.style.bottom = `0px`;
+
+    table.appendChild(statsPad);
+}
+
+function updateStatsPad() {
+    statsPad.children[1].querySelector('.stats-pad-value').textContent = `${depositCount}`;
+    statsPad.children[2].querySelector('.stats-pad-value').textContent = `${withdrawCount}`;
+    statsPad.children[3].querySelector('.stats-pad-value').textContent = `${withdrawCount + depositCount}`;
+    statsPad.children[4].querySelector('.stats-pad-value').textContent = `${rejectedCount}`;
+}
+
+createStatsPad();
 
 setupHowToPopup();
 

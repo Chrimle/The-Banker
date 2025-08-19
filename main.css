@@ -336,6 +336,46 @@ footer a {
     color: #990000;
 }
 
+.stats-pad {
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    background-color: cornsilk;
+    color: #181818;
+    border-radius: 5px;
+    border-color: lightgrey;
+    border-width: 2px;
+    border-style: solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: x-small;
+    cursor:grab;
+}
+
+.stats-pad h3 {
+    font-size: large;
+    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid grey;
+}
+
+.stats-pad-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid grey;
+}
+
+.stats-pad-key {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.stats-pad-value {
+    text-align: right;
+    padding-right: 10px;
+}
 
 .howto-popup {
     position: fixed;
