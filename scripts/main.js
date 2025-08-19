@@ -133,7 +133,7 @@ function moveBillToDrawer(bill) {
     bill.style.top = `${(drawerBorders.top / 3) - (100 / 2)}px`;
 }
 
-function spawnBillInDrawer(delay = 0) {
+function spawnBillInDrawer({ delay = 0 } = {}) {
     const newBill = createBill(customerTransactionSum);
     moveBillToDrawer(newBill);
     newBill.dataset.rot = "270";
@@ -245,7 +245,7 @@ function closeDrawerLid() {
     if (customerTransactionType === TransactionType.DEPOSIT) {
         if (customerDeposited === false) {
             if (billsInDrawer.length === 0) {
-                spawnBillInDrawer(100);
+                spawnBillInDrawer({ delay: 100 });
                 SpeechBubble.hideRejectButton();
                 return;
             } else {
