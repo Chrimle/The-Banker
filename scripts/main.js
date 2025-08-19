@@ -233,11 +233,16 @@ let isLidDragged = false;
 let isLidOpen = false;
 let startY = 0;
 
-const maxOpen = 130;
+const maxOpen = -130;
+
+function updateLid({ value = 0 } = {}) {
+    const newTranslateY = Math.min(0, Math.max(value, maxOpen));
+    lid.style.transform = `translate(-50%, ${newTranslateY}px)`;
+    isLidOpen = newTranslateY === maxOpen;
+}
 
 function closeDrawerLid() {
-    isLidOpen = false;
-    lid.style.transform = `translate(-50%, 0px)`;
+    updateLid();
     const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
         .filter(isBillInDrawer);
 
@@ -306,17 +311,16 @@ lid.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
     if (!isLidDragged) return;
     SoundPlayer.playLidSlide();
-    lid.style.transform = `translate(-50%, ${Math.min(0, Math.max(e.clientY - startY, -maxOpen))}px)`;
+    updateLid({ value: e.clientY - startY })
 });
 
 document.addEventListener('mouseup', () => {
     if (!isLidDragged) return;
     const matrix = new DOMMatrix(window.getComputedStyle(lid).transform || 'none');
-    if ((parseInt(matrix.m42) || 0) < -maxOpen / 2) {
-        lid.style.transform = `translate(-50%, ${-maxOpen}px)`;
-        isLidOpen = true;
+    if ((parseInt(matrix.m42) || 0) < maxOpen / 2) {
+        updateLid({ value: maxOpen });
     } else {
-        lid.style.transform = `translate(-50%, 0px)`;
+        updateLid();
     }
     isLidDragged = false;
     SoundPlayer.playLidClick();
