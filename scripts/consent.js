@@ -1,6 +1,24 @@
+import { insertCookieBannerTemplate } from "../resources/modules/cookie-banner/script.js";
 import { loadGoogleAnalytics } from "./google-analytics.js";
 
 const ANALYTICS_CONSENT = 'consented-analytics';
+
+function setupAcceptButton() {
+    document.getElementById('analytics-accept').addEventListener('click', function () {
+        console.debug('Analytics consented');
+        localStorage.setItem(ANALYTICS_CONSENT, 'true');
+        document.getElementById('analytics-banner').style.display = 'none';
+        loadGoogleAnalytics();
+    });
+}
+
+function setupRejectButton() {
+    document.getElementById('analytics-reject').addEventListener('click', function () {
+        console.debug('Analytics not consented');
+        localStorage.setItem(ANALYTICS_CONSENT, 'false');
+        document.getElementById('analytics-banner').style.display = 'none';
+    });
+}
 
 switch (localStorage.getItem(ANALYTICS_CONSENT)) {
     case 'true':
@@ -12,19 +30,8 @@ switch (localStorage.getItem(ANALYTICS_CONSENT)) {
         break;
     default:
         console.debug('Analytics consent not set, showing banner');
-        document.getElementById('analytics-banner').style.display = 'flex';
+        await insertCookieBannerTemplate();
+        setupAcceptButton();
+        setupRejectButton();
         break;
 }
-
-document.getElementById('analytics-accept').addEventListener('click', function () {
-    console.debug('Analytics consented');
-    localStorage.setItem(ANALYTICS_CONSENT, 'true');
-    document.getElementById('analytics-banner').style.display = 'none';
-    loadGoogleAnalytics();
-});
-
-document.getElementById('analytics-reject').addEventListener('click', function () {
-    console.debug('Analytics not consented');
-    localStorage.setItem(ANALYTICS_CONSENT, 'false');
-    document.getElementById('analytics-banner').style.display = 'none';
-});
