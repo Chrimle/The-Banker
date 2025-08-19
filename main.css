@@ -248,7 +248,7 @@ footer a {
     width: var(--drawer-w);
     height: calc(var(--drawer-h) + 3px);
     transition: transform 0.1s linear;
-    cursor: pointer;
+    cursor: grab;
     z-index: 9999;
     display: flex;
     justify-content: center;
