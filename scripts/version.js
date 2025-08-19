@@ -1,3 +1,4 @@
+import { COMMIT_HISTORY_URL } from "./constants.js";
 
 const versionMeta = document.querySelector('meta[name="version"]');
 const versionNumber = versionMeta ? versionMeta.content : "N/A";

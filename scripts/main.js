@@ -1,7 +1,7 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
 import { BILL_DENOMINATIONS, createBillWithValue, getValueSum } from './bills.js';
-import { BUG_REPORT_URL, COMMIT_HISTORY_URL } from './constants.js';
+import { BUG_REPORT_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
