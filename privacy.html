@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy & Cookies Policy - The Banker</title>
     <link rel="icon" href="./resources/favicon.png" type="image/png">
+    <script type="module" src="./scripts/consent.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,6 +35,40 @@
             margin-top: 3rem;
             font-size: 0.9rem;
             color: #666;
+        }
+
+        #analytics-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #222;
+            color: white;
+            padding: 1em;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #analytics-banner button {
+            margin-left: 0.5em;
+            padding: 0.3em 0.6em;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 3px;
+        }
+
+        #analytics-accept {
+            background-color: #14a7d0;
+            color: white;
+        }
+
+        #analytics-reject {
+            background-color: #555;
+            color: white;
         }
     </style>
 </head>
@@ -90,7 +125,16 @@
         If you have questions about this policy, please contact:
         <a href="mailto:chrimle@users.noreply.github.com">chrimle@users.noreply.github.com</a>
     </p>
-
+    <div id="analytics-banner" style="display:none;">
+        <span>
+            We use cookies to understand how you use <strong>The Banker</strong> and improve your experience.
+            <a href="/privacy.html" style="color:#14a7d0;">Learn more</a>.
+        </span>
+        <span>
+            <button id="analytics-accept">Accept</button>
+            <button id="analytics-reject">Reject</button>
+        </span>
+    </div>
     <footer>
         &copy; 2025 Chrimle — <a href="/">Back to home</a>
     </footer>
