@@ -150,10 +150,9 @@ function onPointerDown(e) {
     bill.setPointerCapture(e.pointerId);
 
     active = bill;
-    const rect = bill.getBoundingClientRect();
 
-    active._offsetX = e.clientX - rect.left;
-    active._offsetY = e.clientY - rect.top;
+    bill.style.left = `${e.clientX - 120}px`;
+    bill.style.top = `${e.clientY - 150}px`;
 
     bill.style.zIndex = ++zIndexCounter;
     bill.classList.add('dragging');
@@ -196,10 +195,9 @@ function isBillInDrawer(bill) {
 
 function onPointerMove(e) {
     if (!active) return;
-    const tableRect = table.getBoundingClientRect();
     const bill = active;
-    const newLeft = e.clientX - tableRect.left - bill._offsetX;
-    const newTop = e.clientY - tableRect.top - bill._offsetY;
+    const newLeft = e.clientX - 120;
+    const newTop = e.clientY - 150;
 
     const maxLeft = table.clientWidth - bill.offsetWidth;
     const maxTop = table.clientHeight - bill.offsetHeight;
