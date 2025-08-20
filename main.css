@@ -350,7 +350,7 @@ footer a {
     flex-direction: column;
     justify-content: flex-start;
     font-size: x-small;
-    cursor:grab;
+    cursor: grab;
 }
 
 .stats-pad h3 {
@@ -402,6 +402,10 @@ footer a {
     min-width: 280px;
     max-width: 90vw;
     position: relative;
+    text-align: center;
+}
+
+.howto-popup-content p,ul,li,ol,h3 {
     text-align: left;
 }
 
@@ -423,6 +427,39 @@ footer a {
 
 .howto-popup-close:hover {
     color: #222;
+}
+
+.howto-popup-play-button {
+    background-color: #28a745;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    animation: pulse 1.5s infinite;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+
+}
+
+.howto-popup-play-button:hover {
+    background-color: #218838;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 .version-pill {

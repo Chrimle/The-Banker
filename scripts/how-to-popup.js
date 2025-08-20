@@ -11,6 +11,10 @@ export function setupHowToPopup() {
         document.getElementById('howto-popup').hidden = true;
     });
 
+    document.querySelector('.howto-popup-play-button').addEventListener('click', function () {
+        document.getElementById('howto-popup').hidden = true;
+    });
+
     document.getElementById('howto-popup').addEventListener('click', function (e) {
         if (e.target === this) this.hidden = true;
     });
