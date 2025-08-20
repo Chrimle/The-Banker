@@ -46,15 +46,51 @@ function getWeightedWithdrawal() {
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
-let rejectedCount = 0;
-let withdrawCount = 0;
-let depositCount = 0;
-let perfectWithdrawalCount = 0;
+
+const LSKEY_GAME_STATS = "gameStats";
+
+const GAME_STATS_KEYS = {
+    REJECTED: "rejectedCount",
+    WITHDRAW: "withdrawCount",
+    DEPOSIT: "depositCount",
+    PERFECT_WITHDRAW: "perfectWithdrawalCount",
+};
+Object.freeze(GAME_STATS_KEYS);
+
+const DEFAULT_GAME_STATS = {
+    [GAME_STATS_KEYS.REJECTED]: 0,
+    [GAME_STATS_KEYS.WITHDRAW]: 0,
+    [GAME_STATS_KEYS.DEPOSIT]: 0,
+    [GAME_STATS_KEYS.PERFECT_WITHDRAW]: 0,
+};
+
+function loadGameStats() {
+    return {
+        ...DEFAULT_GAME_STATS,
+        ...(JSON.parse(localStorage.getItem(LSKEY_GAME_STATS)) || {})
+    };
+}
+
+function saveGameStats(stats = DEFAULT_GAME_STATS) {
+    localStorage.setItem(LSKEY_GAME_STATS, JSON.stringify(stats));
+}
+
+function incrementStat(key) {
+    const stats = loadGameStats();
+    if (!(key in stats)) {
+        console.warn(`Unknown stat key: ${key}`);
+        return;
+    }
+    stats[key]++;
+    saveGameStats(stats);
+    return stats[key];
+}
+
 
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
     SpeechBubble.rejectCustomer();
-    rejectedCount++;
+    incrementStat(GAME_STATS_KEYS.REJECTED);
     updateStatsPad();
     setTimeout(() => {
         spawnCustomer();
@@ -264,7 +300,7 @@ function closeDrawerLid() {
         } else {
             if (billsInDrawer.length === 0) {
                 SpeechBubble.satisfyCustomer();
-                depositCount++;
+                incrementStat(GAME_STATS_KEYS.DEPOSIT);
                 updateStatsPad();
                 setTimeout(() => {
                     spawnCustomer();
@@ -285,11 +321,11 @@ function closeDrawerLid() {
         if (billValue == customerTransactionSum) {
             if (billsInDrawer.length === getFewestBillsForSum(customerTransactionSum)) {
                 console.log('Perfect Withdrawal (fewest bills possible)');
-                perfectWithdrawalCount++;
+                incrementStat(GAME_STATS_KEYS.PERFECT_WITHDRAW);
             }
             billsInDrawer.forEach(bill => bill.remove());
             SpeechBubble.satisfyCustomer();
-            withdrawCount++;
+            incrementStat(GAME_STATS_KEYS.WITHDRAW);
             updateStatsPad();
             setTimeout(() => {
                 spawnCustomer();
@@ -368,14 +404,16 @@ function createStatsPad() {
 }
 
 function updateStatsPad() {
-    statsPad.children[1].querySelector('.stats-pad-value').textContent = `${depositCount}`;
-    statsPad.children[2].querySelector('.stats-pad-value').textContent = `${withdrawCount}`;
-    statsPad.children[3].querySelector('.stats-pad-value').textContent = `${withdrawCount + depositCount}`;
-    statsPad.children[4].querySelector('.stats-pad-value').textContent = `${rejectedCount}`;
-    statsPad.children[5].querySelector('.stats-pad-value').textContent = `${perfectWithdrawalCount}`;
+    const gameStats = loadGameStats();
+    statsPad.children[1].querySelector('.stats-pad-value').textContent = `${gameStats.depositCount}`;
+    statsPad.children[2].querySelector('.stats-pad-value').textContent = `${gameStats.withdrawCount}`;
+    statsPad.children[3].querySelector('.stats-pad-value').textContent = `${gameStats.withdrawCount + gameStats.depositCount}`;
+    statsPad.children[4].querySelector('.stats-pad-value').textContent = `${gameStats.rejectedCount}`;
+    statsPad.children[5].querySelector('.stats-pad-value').textContent = `${gameStats.perfectWithdrawalCount}`;
 }
 
 createStatsPad();
+updateStatsPad();
 
 setupHowToPopup();
 
