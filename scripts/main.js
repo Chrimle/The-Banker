@@ -1,7 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
 import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValueSum } from './bills.js';
-import { BUG_REPORT_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
@@ -377,14 +376,6 @@ createStatsPad();
 updateStatsPad();
 
 setupHowToPopup();
-
-document.getElementById('bug-btn').addEventListener('click', function () {
-    window.open(BUG_REPORT_URL, '_blank');
-});
-
-document.getElementById('roadmap-btn').addEventListener('click', function () {
-    window.open('./roadmap.html', '_blank');
-});
 
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();

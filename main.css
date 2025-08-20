@@ -25,6 +25,10 @@ header {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+header a {
+    text-decoration: none;
+}
+
 header .left {
     display: flex;
     align-items: center;
@@ -405,7 +409,11 @@ footer a {
     text-align: center;
 }
 
-.howto-popup-content p,ul,li,ol,h3 {
+.howto-popup-content p,
+ul,
+li,
+ol,
+h3 {
     text-align: left;
 }
 
