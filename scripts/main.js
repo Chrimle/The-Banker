@@ -1,6 +1,6 @@
 import { randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { BILL_DENOMINATIONS, createBillWithValue, getValueSum } from './bills.js';
+import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValueSum } from './bills.js';
 import { BUG_REPORT_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
@@ -49,6 +49,7 @@ let customerDeposited = false;
 let rejectedCount = 0;
 let withdrawCount = 0;
 let depositCount = 0;
+let perfectWithdrawalCount = 0;
 
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
@@ -282,6 +283,10 @@ function closeDrawerLid() {
         const billValue = getValueSum(billsInDrawer);
         console.debug(`Withdrawal Sum: $${billValue} (${billsInDrawer.length} bills)`);
         if (billValue == customerTransactionSum) {
+            if (billsInDrawer.length === getFewestBillsForSum(customerTransactionSum)) {
+                console.log('Perfect Withdrawal (fewest bills possible)');
+                perfectWithdrawalCount++;
+            }
             billsInDrawer.forEach(bill => bill.remove());
             SpeechBubble.satisfyCustomer();
             withdrawCount++;
@@ -349,6 +354,11 @@ function createStatsPad() {
     rejectRow.querySelector('.stats-pad-value').textContent = '0';
     statsPad.appendChild(rejectRow);
 
+    const perfectWithdrawalRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
+    perfectWithdrawalRow.querySelector('.stats-pad-key').textContent = 'Perfect Withdraws';
+    perfectWithdrawalRow.querySelector('.stats-pad-value').textContent = '0';
+    statsPad.appendChild(perfectWithdrawalRow);
+
     //statsPad.style.left = `${randomInt(0, 500)}px`;
     statsPad.style.left = `0px`;
     //statsPad.style.bottom = `${randomInt(200, 500)}px`;
@@ -362,6 +372,7 @@ function updateStatsPad() {
     statsPad.children[2].querySelector('.stats-pad-value').textContent = `${withdrawCount}`;
     statsPad.children[3].querySelector('.stats-pad-value').textContent = `${withdrawCount + depositCount}`;
     statsPad.children[4].querySelector('.stats-pad-value').textContent = `${rejectedCount}`;
+    statsPad.children[5].querySelector('.stats-pad-value').textContent = `${perfectWithdrawalCount}`;
 }
 
 createStatsPad();
