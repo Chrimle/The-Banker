@@ -15,7 +15,7 @@
 The latest *main* commit will be playable over at [The Banker](https://chrimle.github.io/The-Banker/). The game *can* be run locally by cloning the repository and opening the [index.html](./index.html) file in a browser.
 
 #### GitHub Pages Stats
-![Static Badge](https://img.shields.io/badge/Artifact_Size-39.5_KB-%23007BFF?style=for-the-badge)
+![Static Badge](https://img.shields.io/badge/Artifact_Size-41.7_KB-%23007BFF?style=for-the-badge)
 
 ## Bugs & Features
 Please post them [here](https://github.com/Chrimle/The-Banker/issues/new/choose).
