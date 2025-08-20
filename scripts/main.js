@@ -5,6 +5,7 @@ import { BUG_REPORT_URL } from './constants.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
+import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
 
 const WEIGHTED_WITHDRAWALS = [
     { amount: 10, weight: 5 },
@@ -47,50 +48,10 @@ let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
 
-const LSKEY_GAME_STATS = "gameStats";
-
-const GAME_STATS_KEYS = {
-    REJECTED: "rejectedCount",
-    WITHDRAW: "withdrawCount",
-    DEPOSIT: "depositCount",
-    PERFECT_WITHDRAW: "perfectWithdrawalCount",
-};
-Object.freeze(GAME_STATS_KEYS);
-
-const DEFAULT_GAME_STATS = {
-    [GAME_STATS_KEYS.REJECTED]: 0,
-    [GAME_STATS_KEYS.WITHDRAW]: 0,
-    [GAME_STATS_KEYS.DEPOSIT]: 0,
-    [GAME_STATS_KEYS.PERFECT_WITHDRAW]: 0,
-};
-
-function loadGameStats() {
-    return {
-        ...DEFAULT_GAME_STATS,
-        ...(JSON.parse(localStorage.getItem(LSKEY_GAME_STATS)) || {})
-    };
-}
-
-function saveGameStats(stats = DEFAULT_GAME_STATS) {
-    localStorage.setItem(LSKEY_GAME_STATS, JSON.stringify(stats));
-}
-
-function incrementStat(key) {
-    const stats = loadGameStats();
-    if (!(key in stats)) {
-        console.warn(`Unknown stat key: ${key}`);
-        return;
-    }
-    stats[key]++;
-    saveGameStats(stats);
-    return stats[key];
-}
-
-
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
     SpeechBubble.rejectCustomer();
-    incrementStat(GAME_STATS_KEYS.REJECTED);
+    incrementRejected();
     updateStatsPad();
     setTimeout(() => {
         spawnCustomer();
@@ -300,7 +261,7 @@ function closeDrawerLid() {
         } else {
             if (billsInDrawer.length === 0) {
                 SpeechBubble.satisfyCustomer();
-                incrementStat(GAME_STATS_KEYS.DEPOSIT);
+                incrementDeposit();
                 updateStatsPad();
                 setTimeout(() => {
                     spawnCustomer();
@@ -321,11 +282,11 @@ function closeDrawerLid() {
         if (billValue == customerTransactionSum) {
             if (billsInDrawer.length === getFewestBillsForSum(customerTransactionSum)) {
                 console.log('Perfect Withdrawal (fewest bills possible)');
-                incrementStat(GAME_STATS_KEYS.PERFECT_WITHDRAW);
+                incrementPerfectWithdrawal();
             }
             billsInDrawer.forEach(bill => bill.remove());
             SpeechBubble.satisfyCustomer();
-            incrementStat(GAME_STATS_KEYS.WITHDRAW);
+            incrementWithdraw();
             updateStatsPad();
             setTimeout(() => {
                 spawnCustomer();
