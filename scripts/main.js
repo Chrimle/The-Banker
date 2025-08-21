@@ -5,6 +5,7 @@ import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
 import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
+import { TransferBox } from './TransferBox.js';
 
 const WEIGHTED_WITHDRAWALS = [
     { amount: 10, weight: 5 },
@@ -86,16 +87,6 @@ function spawnCustomer() {
     SpeechBubble.showSpeechBubble();
 }
 
-function getDrawerEdges() {
-    const drawerRect = document.querySelector('.drawer').getBoundingClientRect();
-    return {
-        left: drawerRect.left,
-        right: drawerRect.right,
-        top: drawerRect.top,
-        bottom: drawerRect.bottom
-    };
-}
-
 const table = document.getElementById('table');
 
 table.addEventListener('wheel', (e) => {
@@ -125,7 +116,7 @@ BILL_DENOMINATIONS.forEach((value) => {
 });
 
 function moveBillToDrawer(bill) {
-    const drawerBorders = getDrawerEdges();
+    const drawerBorders = TransferBox.getBoundingBox();
     bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
     bill.style.top = `${(drawerBorders.top / 3) - (100 / 2)}px`;
 }
@@ -183,7 +174,7 @@ function isBillInDrawer(bill) {
         x: billRect.left + billRect.width / 2,
         y: billRect.top + billRect.height / 2
     };
-    const drawerBorders = getDrawerEdges();
+    const drawerBorders = TransferBox.getBoundingBox();
     return billCenter.x > drawerBorders.left &&
         billCenter.x < drawerBorders.right &&
         billCenter.y < drawerBorders.bottom &&
