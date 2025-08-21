@@ -69,7 +69,7 @@ function spawnCustomer() {
     if (customerTransactionType === TransactionType.DEPOSIT) {
         customerTransactionSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
         SpeechBubble.requestDeposit(customerTransactionSum);
-        if (!isLidOpen && !isLidDragged) {
+        if (!TransferBox.IS_LID_OPEN && !isLidDragged) {
             const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
                 .filter(isBillInDrawer);
             if (billsInDrawer.length === 0) {
@@ -154,7 +154,7 @@ function onPointerUp(e) {
     bill.classList.remove('dragging');
 
     if (isBillInDrawer(bill)) {
-        if (isLidOpen) {
+        if (TransferBox.IS_LID_OPEN) {
             moveBillToDrawer(bill);
             updateBillVisual(bill);
         } else {
@@ -216,21 +216,11 @@ function updateBillVisual(b) {
     if (inner) inner.style.transform = `rotateY(${flipped ? 180 : 0}deg)`;
 }
 
-const lid = document.querySelector('.lid');
 let isLidDragged = false;
-let isLidOpen = false;
 let startY = 0;
 
-const maxOpen = -130;
-
-function updateLid({ value = 0 } = {}) {
-    const newTranslateY = Math.min(0, Math.max(value, maxOpen));
-    lid.style.transform = `translate(-50%, ${newTranslateY}px)`;
-    isLidOpen = newTranslateY === maxOpen;
-}
-
 function closeDrawerLid() {
-    updateLid();
+    TransferBox.closeLid();
     const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
         .filter(isBillInDrawer);
 
@@ -290,8 +280,8 @@ function closeDrawerLid() {
     }
 }
 
-lid.addEventListener('mousedown', (e) => {
-    if (isLidOpen) {
+TransferBox.getLidHtmlElement().addEventListener('mousedown', (e) => {
+    if (TransferBox.IS_LID_OPEN) {
         SoundPlayer.playLidSlide();
         SoundPlayer.playLidClick();
         return closeDrawerLid();
@@ -303,16 +293,16 @@ lid.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
     if (!isLidDragged) return;
     SoundPlayer.playLidSlide();
-    updateLid({ value: e.clientY - startY })
+    TransferBox.moveLid({ value: e.clientY - startY });
 });
 
 document.addEventListener('mouseup', () => {
     if (!isLidDragged) return;
-    const matrix = new DOMMatrix(window.getComputedStyle(lid).transform || 'none');
-    if ((parseInt(matrix.m42) || 0) < maxOpen / 2) {
-        updateLid({ value: maxOpen });
+    const matrix = new DOMMatrix(window.getComputedStyle(TransferBox.getLidHtmlElement()).transform || 'none');
+    if ((parseInt(matrix.m42) || 0) < TransferBox.LID_OPEN_TRANSLATE_Y / 2) {
+        TransferBox.openLid();
     } else {
-        updateLid();
+        TransferBox.closeLid();
     }
     isLidDragged = false;
     SoundPlayer.playLidClick();
