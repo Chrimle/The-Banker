@@ -122,10 +122,17 @@ function moveBillToDrawer(bill) {
     bill.style.top = `${(drawerBorders.top / 3) - (100 / 2)}px`;
     billsInDrawer.push(bill);
     console.debug('Bills in drawer: ' + billsInDrawer.length);
-    billsInDrawer.forEach((billInDrawer, index) => {        
+    billsInDrawer.forEach((billInDrawer, index) => {
         billInDrawer.style.zIndex = index;
     });
     TransferBox.getLidHtmlElement().style.zIndex = billsInDrawer.length + 1;
+}
+
+function moveBillToTraySlot(bill, traySlot) {
+    const traySlotBorders = traySlot.getBoundingClientRect();
+    bill.style.left = `${traySlotBorders.left - (((100 + 15) / 2) + 5)}px`;
+    bill.style.top = `${table.offsetHeight - (((100 + 10) / 2) + 10)}px`;
+    bill.dataset.rot = "90";
 }
 
 function spawnBillInDrawer({ delay = 0 } = {}) {
@@ -175,10 +182,36 @@ function onPointerUp(e) {
             updateBillVisual(bill);
             bill.style.top = `${170}px`;
         }
-    } else {
+    } else if (isBillInTray(bill)) {
+        for (const traySlot of document.querySelectorAll(".tray-slot")) {
+            if (isBillInContainer(bill, traySlot)) {
+                moveBillToTraySlot(bill, traySlot);
+                break;
+            }
+        }
+        updateBillVisual(bill);
+    }
+    else {
         updateBillVisual(bill);
     }
     active = null;
+}
+
+function isBillInContainer(bill, container) {
+    const billRect = bill.getBoundingClientRect();
+    const billCenter = {
+        x: billRect.left + billRect.width / 2,
+        y: billRect.top + billRect.height / 2
+    };
+    const containerBorders = container.getBoundingClientRect();
+    return billCenter.x > containerBorders.left &&
+        billCenter.x < containerBorders.right &&
+        billCenter.y < containerBorders.bottom &&
+        billCenter.y > containerBorders.top;
+}
+
+function isBillInTray(bill) {
+    return isBillInContainer(bill, document.querySelector(".tray"));
 }
 
 function isBillInDrawer(bill) {
@@ -191,7 +224,7 @@ function isBillInDrawer(bill) {
     return billCenter.x > drawerBorders.left &&
         billCenter.x < drawerBorders.right &&
         billCenter.y < drawerBorders.bottom &&
-        billCenter.y > drawerBorders.top
+        billCenter.y > drawerBorders.top;
 }
 
 function onPointerMove(e) {
