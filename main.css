@@ -229,6 +229,7 @@ footer a {
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 0;
 }
 
 .lid {
@@ -253,7 +254,7 @@ footer a {
     height: calc(var(--drawer-h) + 3px);
     transition: transform 0.1s linear;
     cursor: grab;
-    z-index: 9999;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;

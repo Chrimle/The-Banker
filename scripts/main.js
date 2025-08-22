@@ -47,6 +47,7 @@ function getWeightedWithdrawal() {
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
+let billsInDrawer = [];
 
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
@@ -119,6 +120,12 @@ function moveBillToDrawer(bill) {
     const drawerBorders = TransferBox.getBoundingBox();
     bill.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
     bill.style.top = `${(drawerBorders.top / 3) - (100 / 2)}px`;
+    billsInDrawer.push(bill);
+    console.debug('Bills in drawer: ' + billsInDrawer.length);
+    billsInDrawer.forEach((billInDrawer, index) => {        
+        billInDrawer.style.zIndex = index;
+    });
+    TransferBox.getLidHtmlElement().style.zIndex = billsInDrawer.length + 1;
 }
 
 function spawnBillInDrawer({ delay = 0 } = {}) {
@@ -138,6 +145,12 @@ function onPointerDown(e) {
     bill.setPointerCapture(e.pointerId);
 
     active = bill;
+
+    const index = billsInDrawer.indexOf(bill);
+    if (index !== -1) {
+        billsInDrawer.splice(index, 1);
+        console.debug('Bills in drawer: ' + billsInDrawer.length);
+    }
 
     bill.style.left = `${e.clientX - 120}px`;
     bill.style.top = `${e.clientY - 150}px`;
@@ -160,7 +173,7 @@ function onPointerUp(e) {
         } else {
             bill.dataset.rot = "0";
             updateBillVisual(bill);
-            bill.style.top = `${175}px`;
+            bill.style.top = `${170}px`;
         }
     } else {
         updateBillVisual(bill);
@@ -221,8 +234,6 @@ let startY = 0;
 
 function closeDrawerLid() {
     TransferBox.closeLid();
-    const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
-        .filter(isBillInDrawer);
 
     console.debug(`Number of bills in drawer: ${billsInDrawer.length}`);
     if (customerTransactionType === TransactionType.DEPOSIT) {
@@ -265,6 +276,7 @@ function closeDrawerLid() {
                 incrementPerfectWithdrawal();
             }
             billsInDrawer.forEach(bill => bill.remove());
+            billsInDrawer.length = 0;
             SpeechBubble.satisfyCustomer();
             incrementWithdraw();
             updateStatsPad();
