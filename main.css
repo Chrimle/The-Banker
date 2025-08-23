@@ -36,6 +36,7 @@ header .left {
 
 header .center {
     text-align: center;
+    cursor:help
 }
 
 header .right {
@@ -565,4 +566,9 @@ h3 {
 
 .version-pill:hover {
     scale: 1.25;
+}
+
+.lore-popup {
+    text-align: justify;
+    margin: 0 15vw;
 }

@@ -408,3 +408,7 @@ document.addEventListener('contextmenu', function (e) {
 });
 
 spawnCustomer();
+
+document.querySelector(".center").addEventListener('click', () => {
+    document.querySelector(".lore-popup").hidden = !document.querySelector(".lore-popup").hidden;
+})
