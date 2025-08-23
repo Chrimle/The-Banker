@@ -408,6 +408,56 @@ footer a {
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
+.id-card {
+    position: absolute;
+    height: 90px;
+    width: 180px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: grab;
+    box-shadow: inset 0 0 0 5px #254e70;
+    background: linear-gradient(135deg, #f0f8ff 0%, #cce0ff 50%, #99c2ff 100%);
+    color: #555a6e;
+}
+
+.id-card-header {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid darkgray;
+    font-weight: 900;
+}
+
+.id-card-body {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 50px;
+}
+
+.id-card-picture {
+    display: block;
+    width: 45px;
+    height: 45px;
+    background-color: grey;
+}
+
+.id-card-details {
+    display: block;
+    text-align: left;
+}
+
+.id-card-details span {
+    display: block;
+}
+
+.id-card-ssn {
+    display: block;
+    text-align: right;
+    border-top: 1px solid darkgray;
+}
+
 .howto-popup {
     position: fixed;
     top: 0;
