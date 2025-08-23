@@ -1,4 +1,4 @@
-import { randomInt } from './maths.js';
+import { getNearestVerticalRotation, randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
 import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValueSum } from './bills.js';
 import { TransactionType } from './transactionType.js';
@@ -132,7 +132,7 @@ function moveBillToTraySlot(bill, traySlot) {
     const traySlotBorders = traySlot.getBoundingClientRect();
     bill.style.left = `${traySlotBorders.left - (((100 + 15) / 2) + 5)}px`;
     bill.style.top = `${table.offsetHeight - (((100 + 10) / 2) + 10)}px`;
-    bill.dataset.rot = "90";
+    bill.dataset.rot = getNearestVerticalRotation(parseInt(bill.dataset.rot || 0));
 }
 
 function spawnBillInDrawer({ delay = 0 } = {}) {
