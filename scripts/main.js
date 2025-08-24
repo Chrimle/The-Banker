@@ -1,4 +1,4 @@
-import { getNearestVerticalRotation, randomInt } from './maths.js';
+import { getNearestHorizontalRotation, getNearestVerticalRotation, randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
 import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValueSum } from './bills.js';
 import { TransactionType } from './transactionType.js';
@@ -191,7 +191,7 @@ function onPointerUp(e) {
                 return;
             }
         }
-        bill.dataset.rot = "0"
+        bill.dataset.rot = getNearestHorizontalRotation(parseInt(bill.dataset.rot));
         bill.style.top = `${table.offsetHeight - 245}px`;
         updateBillVisual(bill);
     }

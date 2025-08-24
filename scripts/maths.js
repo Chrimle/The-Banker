@@ -16,3 +16,7 @@ export function getNearestVerticalRotation(degrees) {
         return Math.floor(degrees / 360) * 360 + 90;
     }
 }
+
+export function getNearestHorizontalRotation(degrees = 0) {
+    return Math.round(degrees / 180) * 180;
+}
