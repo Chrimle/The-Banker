@@ -132,7 +132,7 @@ function moveBillToTraySlot(bill, traySlot) {
     const traySlotBorders = traySlot.getBoundingClientRect();
     bill.style.left = `${traySlotBorders.left - (((100 + 15) / 2) + 5)}px`;
     bill.style.top = `${table.offsetHeight - (((100 + 10) / 2) + 10)}px`;
-    bill.dataset.rot = getNearestVerticalRotation(parseInt(bill.dataset.rot || 0));
+    bill.dataset.rot = getNearestVerticalRotation(parseInt(bill.dataset.rot));
 }
 
 function spawnBillInDrawer({ delay = 0 } = {}) {
@@ -179,7 +179,7 @@ function onPointerUp(e) {
             moveBillToDrawer(bill);
             updateBillVisual(bill);
         } else {
-            bill.dataset.rot = "0";
+            bill.dataset.rot = getNearestHorizontalRotation(parseInt(bill.dataset.rot));
             updateBillVisual(bill);
             bill.style.top = `${170}px`;
         }
