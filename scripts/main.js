@@ -251,18 +251,20 @@ function onWheel(e) {
 }
 
 function onDblClick(e) {
-    const bill = e.currentTarget;
-    bill.dataset.flipped = (bill.dataset.flipped === "true") ? "false" : "true";
-    updateBillVisual(bill);
+    flipBill(e.currentTarget);
+}
+
+function flipBill(bill) {
+    const flipped = !(bill.dataset.flipped === "true");
+    bill.dataset.flipped = flipped ? "true" : "false";
+    const inner = bill.querySelector('.inner');
+    if (inner) inner.style.transform = `rotateY(${flipped ? 180 : 0}deg)`;
 }
 
 function updateBillVisual(b) {
     const rot = parseFloat(b.dataset.rot || "0");
-    const flipped = b.dataset.flipped === "true";
     const scale = b.classList.contains('dragging') ? 1.06 : 1;
     b.style.transform = `rotate(${rot}deg) scale(${scale})`;
-    const inner = b.querySelector('.inner');
-    if (inner) inner.style.transform = `rotateY(${flipped ? 180 : 0}deg)`;
 }
 
 let isLidDragged = false;
