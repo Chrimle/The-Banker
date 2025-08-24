@@ -244,6 +244,9 @@ function onPointerMove(e) {
 
 function onWheel(e) {
     const bill = e.currentTarget;
+    if (!bill.classList.contains('dragging') && isBillInTray(bill)) {
+        return;
+    }
     const rot = parseFloat(bill.dataset.rot || "0");
     const step = (e.deltaY > 0) ? 15 : -15;
     bill.dataset.rot = String(rot + step);
