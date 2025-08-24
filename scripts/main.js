@@ -170,6 +170,7 @@ function onPointerDown(e) {
 function onPointerUp(e) {
     if (!active) return;
     const bill = active;
+    active = null;
     try { bill.releasePointerCapture(e.pointerId); } catch (_) { }
     bill.classList.remove('dragging');
 
@@ -186,15 +187,17 @@ function onPointerUp(e) {
         for (const traySlot of document.querySelectorAll(".tray-slot")) {
             if (isBillInContainer(bill, traySlot)) {
                 moveBillToTraySlot(bill, traySlot);
-                break;
+                updateBillVisual(bill);
+                return;
             }
         }
+        bill.dataset.rot = "0"
+        bill.style.top = `${table.offsetHeight - 245}px`;
         updateBillVisual(bill);
     }
     else {
         updateBillVisual(bill);
     }
-    active = null;
 }
 
 function isBillInContainer(bill, container) {
