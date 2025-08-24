@@ -6,6 +6,7 @@ import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
 import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
+import { Customer, generateFirstName, generateLastName, generateSSN } from './customer.js';
 
 const WEIGHTED_WITHDRAWALS = [
     { amount: 10, weight: 5 },
@@ -44,6 +45,7 @@ function getWeightedWithdrawal() {
     }
 }
 
+let currentCustomer;
 let customerTransactionType;
 let customerTransactionSum = 0;
 let customerDeposited = false;
@@ -61,7 +63,8 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
 
 function spawnCustomer() {
     customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
-
+    currentCustomer = new Customer(generateFirstName(), generateLastName(), generateSSN());
+    spawnIdCardForCurrentCustomer();
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
         customerTransactionSum = getWeightedWithdrawal();
         SpeechBubble.requestWithdraw(customerTransactionSum);
@@ -86,6 +89,30 @@ function spawnCustomer() {
         }
     }
     SpeechBubble.showSpeechBubble();
+}
+
+export function cloneIdCardTemplate() {
+    return document.getElementById('id-card-template').content.firstElementChild.cloneNode(true);
+}
+
+function spawnIdCardForCurrentCustomer() {
+    const previousIdCard = table.querySelector(".id-card-details");
+    if (previousIdCard) {
+        previousIdCard.remove();
+    }
+
+    const idCard = cloneIdCardTemplate();
+    const [lastName, firstName] = idCard.querySelector(".id-card-details").children;
+    idCard.querySelector(".id-card-ssn").textContent = currentCustomer.ssn;
+    lastName.textContent = currentCustomer.lastName;
+    firstName.textContent = currentCustomer.firstName;
+
+    const drawerBorders = TransferBox.getBoundingBox();
+    idCard.style.left = `${drawerBorders.left + (drawerBorders.right - drawerBorders.left) / 2 - (220 / 2)}px`;
+    idCard.style.top = `${(drawerBorders.top) - (100 / 2)}px`;
+    idCard.style.zIndex = "0";
+
+    table.appendChild(idCard);
 }
 
 const table = document.getElementById('table');
@@ -123,9 +150,9 @@ function moveBillToDrawer(bill) {
     billsInDrawer.push(bill);
     console.debug('Bills in drawer: ' + billsInDrawer.length);
     billsInDrawer.forEach((billInDrawer, index) => {
-        billInDrawer.style.zIndex = index;
+        billInDrawer.style.zIndex = index + 1;
     });
-    TransferBox.getLidHtmlElement().style.zIndex = billsInDrawer.length + 1;
+    TransferBox.getLidHtmlElement().style.zIndex = billsInDrawer.length + 2;
 }
 
 function moveBillToTraySlot(bill, traySlot) {
