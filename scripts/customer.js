@@ -66,11 +66,11 @@ export function generateSSN() {
 }
 
 export function generateFirstName() {
-    return FIRST_NAMES[randomInt(0, FIRST_NAMES.length)];
+    return FIRST_NAMES[randomInt(0, FIRST_NAMES.length - 1)];
 }
 
 export function generateLastName() {
-    return LAST_NAMES[randomInt(0, LAST_NAMES.length)];
+    return LAST_NAMES[randomInt(0, LAST_NAMES.length - 1)];
 }
 
 export class Customer {
