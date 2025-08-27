@@ -8,11 +8,8 @@
     <script type="module" src="./scripts/consent.js"></script>
     <style>
         #mobile-disclaimer {
-            position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
             background: rgba(0, 0, 0, 0.85);
             color: white;
             z-index: 9999;
@@ -35,15 +32,18 @@
             margin-bottom: 1rem;
         }
 
+        #mobile-disclaimer h2 {
+            font-size: clamp(1.5rem, 35vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
         #mobile-disclaimer p {
             font-size: clamp(1rem, 5vw, 2rem);
-            max-width: 600px;
             text-align: right;
         }
 
         #mobile-disclaimer blockquote {
-            font-size: clamp(1rem, 90vw, 2rem);
-            max-width: 600px;
+            font-size: clamp(1rem, 5vw, 2rem);
             text-align: justify;
             margin-left: 5vw;
             margin-right: 5vw;
@@ -53,7 +53,28 @@
 
 <body>
     <div id="mobile-disclaimer">
-        <h1>The Banker</h1>
+        <h1>The Banker Game</h1>
+        <blockquote>
+            <em>
+                After a total societal crash caused by AI, trust in technology is non-existent. Electronics have been
+                abandoned and mostly outlawed, leaving people to rely on analog methods for communication, work,
+                everything
+                else. Communities are tight-knit and local, with trades, agreements, and daily life conducted
+                face-to-face.
+                Improvised human-operated mechanical devices are revitalizing past technologies - which are under heavy
+                scrutiny by the various government bodies, conducting inspections for certifications and legal
+                violations.
+                Life is slower, and deliberate, as society struggles to rebuild a world where every action must be
+                verified
+                and nothing can be taken on faith in a system once dominated by Artificial Intelligence.
+            </em>
+        </blockquote>
+        <blockquote>
+            Since <em>The Disconnect</em>, You have been assigned your first job. As a bank teller at the first regional
+            bank, you will play a crucial role in building trust in a new banking system and aid the community
+            financially. Do this well, and all parties will benefit. But if you do not, you will be made an example,
+            that is for sure...
+        </blockquote>
         <h2>Mobile Is Not Yet Supported</h2>
         <blockquote>
             Unfortunately, <em>The Banker</em> does not support Mobile yet.
