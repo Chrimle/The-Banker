@@ -8,6 +8,16 @@ import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, increm
 import { TransferBox } from './TransferBox.js';
 import { Customer, generateFirstName, generateLastName, generateSSN } from './customer.js';
 
+const initialWidth = window.innerWidth;
+const initialHeight = window.innerHeight;
+const overlay = document.getElementById("refresh-overlay");
+
+window.addEventListener("resize", () => {
+    if (window.innerWidth !== initialWidth || window.innerHeight !== initialHeight) {
+        overlay.style.display = "flex";
+    }
+});
+
 const WEIGHTED_WITHDRAWALS = [
     { amount: 10, weight: 5 },
     { amount: 20, weight: 8 },
