@@ -426,12 +426,15 @@ function createStatsPad() {
     perfectWithdrawalRow.querySelector('.stats-pad-value').textContent = '0';
     statsPad.appendChild(perfectWithdrawalRow);
 
-    //statsPad.style.left = `${randomInt(0, 500)}px`;
-    statsPad.style.left = `0px`;
-    //statsPad.style.bottom = `${randomInt(200, 500)}px`;
-    statsPad.style.bottom = `0px`;
-
     table.appendChild(statsPad);
+
+    document.getElementById('stats-toggle').addEventListener('click', () => {
+        if (statsPad.style.display === 'none' || statsPad.style.display === '') {
+            statsPad.style.display = 'flex';
+        } else {
+            statsPad.style.display = 'none';
+        }
+    });
 }
 
 function updateStatsPad() {
