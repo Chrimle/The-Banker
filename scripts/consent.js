@@ -1,7 +1,6 @@
 import { insertCookieBannerTemplate } from "../resources/modules/cookie-banner/script.js";
+import { ANALYTICS_CONSENT } from "./constants.js";
 import { loadGoogleAnalytics } from "./google-analytics.js";
-
-const ANALYTICS_CONSENT = 'consented-analytics';
 
 function setupAcceptButton() {
     document.getElementById('analytics-accept').addEventListener('click', function () {
