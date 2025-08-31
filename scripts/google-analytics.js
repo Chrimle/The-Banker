@@ -41,6 +41,29 @@ export class GoogleAnalytics {
         this.#gtag("event", "tutorial_complete");
     }
 
+    static reportLevelStart(levelName) {
+        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
+            console.debug('Analytics not consented, not reporting level start');
+            return;
+        }
+        console.debug('Reporting level start to Google Analytics');
+        this.#gtag("event", "level_start", {
+            level_name: levelName
+        });
+    }
+
+    static reportLevelEnd(levelName, success) {
+        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
+            console.debug('Analytics not consented, not reporting level end');
+            return;
+        }
+        console.debug('Reporting level end to Google Analytics');
+        this.#gtag("event", "level_end", {
+            level_name: levelName,
+            success: success
+        });
+    }
+
     static isAnalyticsConsented() {
         return localStorage.getItem(ANALYTICS_CONSENT) === 'true';
     }

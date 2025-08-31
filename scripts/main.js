@@ -7,6 +7,7 @@ import { SoundPlayer } from './SoundPlayer.js';
 import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
 import { Customer, generateFirstName, generateLastName, generateSSN } from './customer.js';
+import { GoogleAnalytics } from './google-analytics.js';
 
 const initialWidth = window.innerWidth;
 const initialHeight = window.innerHeight;
@@ -63,6 +64,7 @@ let billsInDrawer = [];
 
 SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
+    GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), false);
     SpeechBubble.rejectCustomer();
     incrementRejected();
     updateStatsPad();
@@ -73,6 +75,7 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
 
 function spawnCustomer() {
     customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
+    GoogleAnalytics.reportLevelStart(customerTransactionType.toString());
     currentCustomer = new Customer(generateFirstName(), generateLastName(), generateSSN());
     spawnIdCardForCurrentCustomer();
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
@@ -330,6 +333,7 @@ function closeDrawerLid() {
         } else {
             if (billsInDrawer.length === 0) {
                 SpeechBubble.satisfyCustomer();
+                GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
                 incrementDeposit();
                 updateStatsPad();
                 setTimeout(() => {
@@ -356,6 +360,7 @@ function closeDrawerLid() {
             billsInDrawer.forEach(bill => bill.remove());
             billsInDrawer.length = 0;
             SpeechBubble.satisfyCustomer();
+            GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
             incrementWithdraw();
             updateStatsPad();
             setTimeout(() => {
