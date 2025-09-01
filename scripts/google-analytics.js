@@ -22,48 +22,51 @@ export class GoogleAnalytics {
 
     static #gtag = null;
 
+    static KEY_EVENT = 'event';
+    static EVENT_TUTORIAL_BEGIN = 'tutorial_begin';
+    static EVENT_TUTORIAL_COMPLETE = 'tutorial_complete';
+    static EVENT_LEVEL_START = 'level_start';
+    static EVENT_LEVEL_END = 'level_end';
+
     static setGtagFunction(gtagFunction) {
         this.#gtag = gtagFunction;
     }
 
-    static reportTutorialBegin() {
+    static reportEvent(eventName, functionToCall) {
         if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
-            console.debug('Analytics not consented, not reporting tutorial begin');
+            console.debug(`Analytics not consented, not reporting event: ${eventName}`);
             return;
         }
-        console.debug('Reporting tutorial begin to Google Analytics');
-        this.#gtag("event", "tutorial_begin");
+        console.debug(`Reporting event to Google Analytics: ${eventName}`);
+        functionToCall();
+    }
+
+    static reportTutorialBegin() {
+        this.reportEvent(this.EVENT_TUTORIAL_BEGIN, () => {
+            this.#gtag(this.KEY_EVENT, this.EVENT_TUTORIAL_BEGIN);
+        });
     }
 
     static reportTutorialComplete() {
-        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
-            console.debug('Analytics not consented, not reporting tutorial complete');
-            return;
-        }
-        console.debug('Reporting tutorial complete to Google Analytics');
-        this.#gtag("event", "tutorial_complete");
+        this.reportEvent(this.EVENT_TUTORIAL_COMPLETE, () => {
+            this.#gtag(this.KEY_EVENT, this.EVENT_TUTORIAL_COMPLETE);
+        });
     }
 
     static reportLevelStart(levelName) {
-        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
-            console.debug('Analytics not consented, not reporting level start');
-            return;
-        }
-        console.debug('Reporting level start to Google Analytics');
-        this.#gtag("event", "level_start", {
-            level_name: levelName
+        this.reportEvent(this.EVENT_LEVEL_START, () => {
+            this.#gtag(this.KEY_EVENT, this.EVENT_LEVEL_START, {
+                level_name: levelName
+            });
         });
     }
 
     static reportLevelEnd(levelName, success) {
-        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
-            console.debug('Analytics not consented, not reporting level end');
-            return;
-        }
-        console.debug('Reporting level end to Google Analytics');
-        this.#gtag("event", "level_end", {
-            level_name: levelName,
-            success: success
+        this.reportEvent(this.EVENT_LEVEL_END, () => {
+            this.#gtag(this.KEY_EVENT, this.EVENT_LEVEL_END, {
+                level_name: levelName,
+                success: success
+            });
         });
     }
 
