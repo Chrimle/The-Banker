@@ -10,6 +10,9 @@ export function loadGoogleAnalytics() {
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
+        gtag('consent', 'update', {
+            'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
+        });
         gtag('config', GOOGLE_ANALYTICS_ID);
         GoogleAnalytics.setGtagFunction(gtag);
     };
