@@ -1,11 +1,11 @@
 import { insertCookieBannerTemplate } from "../resources/modules/cookie-banner/script.js";
 import { ANALYTICS_CONSENT } from "./constants.js";
-import { loadGoogleAnalytics } from "./google-analytics.js";
+import { GoogleAnalytics, loadGoogleAnalytics } from "./google-analytics.js";
 
 function setupAcceptButton() {
     document.getElementById('analytics-accept').addEventListener('click', function () {
         console.debug('Analytics consented');
-        localStorage.setItem(ANALYTICS_CONSENT, 'true');
+        GoogleAnalytics.setAnalyticsConsented(true);
         document.getElementById('analytics-banner').style.display = 'none';
         loadGoogleAnalytics();
     });
@@ -14,7 +14,7 @@ function setupAcceptButton() {
 function setupRejectButton() {
     document.getElementById('analytics-reject').addEventListener('click', function () {
         console.debug('Analytics not consented');
-        localStorage.setItem(ANALYTICS_CONSENT, 'false');
+        GoogleAnalytics.setAnalyticsConsented(false);
         document.getElementById('analytics-banner').style.display = 'none';
     });
 }

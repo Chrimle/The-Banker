@@ -73,4 +73,8 @@ export class GoogleAnalytics {
     static isAnalyticsConsented() {
         return localStorage.getItem(ANALYTICS_CONSENT) === 'true';
     }
+
+    static setAnalyticsConsented(consent) {
+        localStorage.setItem(ANALYTICS_CONSENT, consent ? 'true' : 'false');
+    }
 }
