@@ -50,8 +50,8 @@ export class GoogleAnalytics {
     }
 
     static reportEvent(eventName, functionToCall) {
-        if (!this.isAnalyticsConsented() || typeof this.#gtag !== 'function') {
-            console.debug(`Analytics not consented, not reporting event: ${eventName}`);
+        if (typeof this.#gtag !== 'function') {
+            console.debug(`Google Analytics not initialized yet, not reporting event: ${eventName}`);
             return;
         }
         console.debug(`Reporting event to Google Analytics: ${eventName}`);
