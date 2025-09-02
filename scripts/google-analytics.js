@@ -9,7 +9,6 @@ export function loadGoogleAnalytics() {
     script.onload = function () {
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
         gtag('consent', 'default', {
             'ad_storage': 'denied',
             'ad_user_data': 'denied',
@@ -19,6 +18,7 @@ export function loadGoogleAnalytics() {
             'personalization_storage': 'denied',
             'security_storage': 'denied'
         });
+        gtag('js', new Date());
         gtag('consent', 'update', {
             'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
         });
