@@ -1,5 +1,4 @@
 import { insertCookieBannerTemplate } from "../resources/modules/cookie-banner/script.js";
-import { ANALYTICS_CONSENT } from "./constants.js";
 import { GoogleAnalytics } from "./google-analytics.js";
 
 function setupAcceptButton() {
@@ -7,7 +6,6 @@ function setupAcceptButton() {
         console.debug('Analytics consented');
         GoogleAnalytics.setAnalyticsConsented(true);
         document.getElementById('analytics-banner').style.display = 'none';
-        GoogleAnalytics.initialize();
     });
 }
 
@@ -19,18 +17,11 @@ function setupRejectButton() {
     });
 }
 
-switch (localStorage.getItem(ANALYTICS_CONSENT)) {
-    case 'true':
-        console.debug('Analytics consented');
-        GoogleAnalytics.initialize();
-        break;
-    case 'false':
-        console.debug('Analytics not consented');
-        break;
-    default:
-        console.debug('Analytics consent not set, showing banner');
-        await insertCookieBannerTemplate();
-        setupAcceptButton();
-        setupRejectButton();
-        break;
+GoogleAnalytics.initialize();
+
+if (!GoogleAnalytics.isAnalyticsConsentSet()) {
+    console.debug('Analytics consent not set, showing banner');
+    await insertCookieBannerTemplate();
+    setupAcceptButton();
+    setupRejectButton();
 }

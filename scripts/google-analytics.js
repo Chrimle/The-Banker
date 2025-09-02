@@ -31,16 +31,22 @@ export class GoogleAnalytics {
                 'security_storage': 'granted'
             });
             gtag('js', new Date());
-            gtag('consent', 'update', {
-                'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
-            });
             gtag('config', GOOGLE_ANALYTICS_ID);
             GoogleAnalytics.setGtagFunction(gtag);
+            GoogleAnalytics.updateAnalyticsStorageConsent();
         };
     }
 
     static setGtagFunction(gtagFunction) {
         this.#gtag = gtagFunction;
+    }
+
+    static updateAnalyticsStorageConsent() {
+        console.log('Updating analytics_storage consent to', GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied');
+        
+        this.#gtag('consent', 'update', {
+            'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
+        });
     }
 
     static reportEvent(eventName, functionToCall) {
@@ -85,7 +91,12 @@ export class GoogleAnalytics {
         return localStorage.getItem(ANALYTICS_CONSENT) === 'true';
     }
 
+    static isAnalyticsConsentSet() {
+        return localStorage.getItem(ANALYTICS_CONSENT) !== null;
+    }
+
     static setAnalyticsConsented(consent) {
         localStorage.setItem(ANALYTICS_CONSENT, consent ? 'true' : 'false');
+        this.updateAnalyticsStorageConsent();
     }
 }
