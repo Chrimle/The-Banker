@@ -16,7 +16,7 @@ export function loadGoogleAnalytics() {
             'analytics_storage': 'denied',
             'functionality_storage': 'denied',
             'personalization_storage': 'denied',
-            'security_storage': 'denied'
+            'security_storage': 'granted'
         });
         gtag('js', new Date());
         gtag('consent', 'update', {
