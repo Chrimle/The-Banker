@@ -1,32 +1,5 @@
 import { ANALYTICS_CONSENT, GOOGLE_ANALYTICS_ID } from "./constants.js";
 
-export function loadGoogleAnalytics() {
-    let script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
-    document.head.appendChild(script);
-
-    script.onload = function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('consent', 'default', {
-            'ad_storage': 'denied',
-            'ad_user_data': 'denied',
-            'ad_personalization': 'denied',
-            'analytics_storage': 'denied',
-            'functionality_storage': 'denied',
-            'personalization_storage': 'denied',
-            'security_storage': 'granted'
-        });
-        gtag('js', new Date());
-        gtag('consent', 'update', {
-            'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
-        });
-        gtag('config', GOOGLE_ANALYTICS_ID);
-        GoogleAnalytics.setGtagFunction(gtag);
-    };
-}
-
 export class GoogleAnalytics {
 
     static #gtag = null;
@@ -36,6 +9,35 @@ export class GoogleAnalytics {
     static EVENT_TUTORIAL_COMPLETE = 'tutorial_complete';
     static EVENT_LEVEL_START = 'level_start';
     static EVENT_LEVEL_END = 'level_end';
+
+    static initialize() {
+        console.log('Initializing Google Analytics...');
+
+        let script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
+        document.head.appendChild(script);
+
+        script.onload = function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'analytics_storage': 'denied',
+                'functionality_storage': 'denied',
+                'personalization_storage': 'denied',
+                'security_storage': 'granted'
+            });
+            gtag('js', new Date());
+            gtag('consent', 'update', {
+                'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
+            });
+            gtag('config', GOOGLE_ANALYTICS_ID);
+            GoogleAnalytics.setGtagFunction(gtag);
+        };
+    }
 
     static setGtagFunction(gtagFunction) {
         this.#gtag = gtagFunction;
