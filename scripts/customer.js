@@ -81,6 +81,22 @@ export class Customer {
         this.bankBalance = bankBalance;
         this.loanAmount = loanAmount;
     }
+
+    hasSufficientFunds(amount) {
+        return this.bankBalance >= amount;
+    }
+
+    deposit(amount) {
+        this.bankBalance += amount;
+    }
+
+    withdraw(amount) {
+        //if (this.hasSufficientFunds(amount)) {
+        this.bankBalance -= amount;
+        //    return true;
+        //}
+        // return false;
+    }
 }
 
 export class CustomerManager {

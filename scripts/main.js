@@ -332,6 +332,7 @@ function closeDrawerLid() {
             }
         } else {
             if (billsInDrawer.length === 0) {
+                currentCustomer.deposit(customerTransactionSum);
                 SpeechBubble.satisfyCustomer();
                 GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
                 incrementDeposit();
@@ -359,6 +360,7 @@ function closeDrawerLid() {
             }
             billsInDrawer.forEach(bill => bill.remove());
             billsInDrawer.length = 0;
+            currentCustomer.withdraw(customerTransactionSum);
             SpeechBubble.satisfyCustomer();
             GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
             incrementWithdraw();
