@@ -76,7 +76,7 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
 function spawnCustomer() {
     customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
     GoogleAnalytics.reportLevelStart(customerTransactionType.toString());
-    currentCustomer = CustomerManager.generateCustomer();
+    currentCustomer = CustomerManager.getRandomCustomer();
     spawnIdCardForCurrentCustomer();
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
         customerTransactionSum = getWeightedWithdrawal();

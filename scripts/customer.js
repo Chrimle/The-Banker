@@ -103,6 +103,13 @@ export class CustomerManager {
 
     static #customers = [];
 
+    static {
+        // Pre-register some customers
+        for (let i = 0; i < 100; i++) {
+            this.generateCustomer();
+        }
+    }
+
     static generateCustomer() {
         const firstName = generateFirstName();
         const lastName = generateLastName();
@@ -120,7 +127,13 @@ export class CustomerManager {
 
     static registerCustomer(customer) {
         this.#customers.push(customer);
+    }
+
+    static getRandomCustomer() {
+        if (this.#customers.length === 0) throw new Error("No customers registered.");
         console.debug(this.#customers);
+        const index = randomInt(0, this.#customers.length - 1);
+        return this.#customers[index];
     }
 
     static getAllCustomers() {
