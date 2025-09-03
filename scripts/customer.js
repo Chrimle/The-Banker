@@ -82,3 +82,40 @@ export class Customer {
         this.loanAmount = loanAmount;
     }
 }
+
+export class CustomerManager {
+
+    static #customers = [];
+
+    static generateCustomer() {
+        const firstName = generateFirstName();
+        const lastName = generateLastName();
+        let ssn;
+        do {
+            ssn = generateSSN();
+        } while (this.isCustomerRegistered(ssn));
+
+        const bankBalance = 0;
+        const loanAmount = 0;
+        const customer = new Customer(firstName, lastName, ssn, bankBalance, loanAmount);
+        this.registerCustomer(customer);
+        return customer;
+    }
+
+    static registerCustomer(customer) {
+        this.#customers.push(customer);
+        console.debug(this.#customers);
+    }
+
+    static getAllCustomers() {
+        return this.#customers;
+    }
+
+    static isCustomerRegistered(ssn) {
+        return this.#customers.some(c => c.ssn === ssn);
+    }
+
+    static findCustomerBySSN(ssn) {
+        return this.#customers.find(c => c.ssn === ssn);
+    }
+}

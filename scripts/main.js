@@ -6,7 +6,7 @@ import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
 import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
-import { Customer, generateFirstName, generateLastName, generateSSN } from './customer.js';
+import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
 
 const initialWidth = window.innerWidth;
@@ -76,7 +76,7 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
 function spawnCustomer() {
     customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
     GoogleAnalytics.reportLevelStart(customerTransactionType.toString());
-    currentCustomer = new Customer(generateFirstName(), generateLastName(), generateSSN());
+    currentCustomer = CustomerManager.generateCustomer();
     spawnIdCardForCurrentCustomer();
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
         customerTransactionSum = getWeightedWithdrawal();
