@@ -8,7 +8,6 @@ import { GameStatsManager } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
 import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
-import { StatsPad } from './StatsPad.js';
 
 const initialWidth = window.innerWidth;
 const initialHeight = window.innerHeight;
