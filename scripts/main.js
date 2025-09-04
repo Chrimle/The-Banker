@@ -4,10 +4,11 @@ import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValue
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
-import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw, loadGameStats } from './gameStats.js';
+import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
 import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
+import { StatsPad } from './StatsPad.js';
 
 const initialWidth = window.innerWidth;
 const initialHeight = window.innerHeight;
@@ -67,7 +68,7 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
     GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), false);
     SpeechBubble.rejectCustomer();
     incrementRejected();
-    updateStatsPad();
+    StatsPad.refresh();
     setTimeout(() => {
         spawnCustomer();
     }, 2000);
@@ -336,7 +337,7 @@ function closeDrawerLid() {
                 SpeechBubble.satisfyCustomer();
                 GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
                 incrementDeposit();
-                updateStatsPad();
+                StatsPad.refresh();
                 setTimeout(() => {
                     spawnCustomer();
                 }, 2000);
@@ -364,7 +365,7 @@ function closeDrawerLid() {
             SpeechBubble.satisfyCustomer();
             GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
             incrementWithdraw();
-            updateStatsPad();
+            StatsPad.refresh();
             setTimeout(() => {
                 spawnCustomer();
             }, 2000);
@@ -405,56 +406,7 @@ document.addEventListener('mouseup', () => {
     SoundPlayer.playLidClick();
 });
 
-const statsPad = document.getElementById('stats-pad-template').content.firstElementChild.cloneNode(true);
-
-function createStatsPad() {
-    const depositRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
-    depositRow.querySelector('.stats-pad-key').textContent = 'Deposits';
-    depositRow.querySelector('.stats-pad-value').textContent = '0';
-    statsPad.appendChild(depositRow);
-
-    const withdrawRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
-    withdrawRow.querySelector('.stats-pad-key').textContent = 'Withdraws';
-    withdrawRow.querySelector('.stats-pad-value').textContent = '0';
-    statsPad.appendChild(withdrawRow);
-
-    const totalRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
-    totalRow.querySelector('.stats-pad-key').textContent = 'Total';
-    totalRow.querySelector('.stats-pad-value').textContent = '0';
-    statsPad.appendChild(totalRow);
-
-    const rejectRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
-    rejectRow.querySelector('.stats-pad-key').textContent = 'Rejected';
-    rejectRow.querySelector('.stats-pad-value').textContent = '0';
-    statsPad.appendChild(rejectRow);
-
-    const perfectWithdrawalRow = document.getElementById('stats-pad-row-template').content.firstElementChild.cloneNode(true);
-    perfectWithdrawalRow.querySelector('.stats-pad-key').textContent = 'Perfect Withdraws';
-    perfectWithdrawalRow.querySelector('.stats-pad-value').textContent = '0';
-    statsPad.appendChild(perfectWithdrawalRow);
-
-    table.appendChild(statsPad);
-
-    document.getElementById('stats-toggle').addEventListener('click', () => {
-        if (statsPad.style.display === 'none' || statsPad.style.display === '') {
-            statsPad.style.display = 'flex';
-        } else {
-            statsPad.style.display = 'none';
-        }
-    });
-}
-
-function updateStatsPad() {
-    const gameStats = loadGameStats();
-    statsPad.children[1].querySelector('.stats-pad-value').textContent = `${gameStats.depositCount}`;
-    statsPad.children[2].querySelector('.stats-pad-value').textContent = `${gameStats.withdrawCount}`;
-    statsPad.children[3].querySelector('.stats-pad-value').textContent = `${gameStats.withdrawCount + gameStats.depositCount}`;
-    statsPad.children[4].querySelector('.stats-pad-value').textContent = `${gameStats.rejectedCount}`;
-    statsPad.children[5].querySelector('.stats-pad-value').textContent = `${gameStats.perfectWithdrawalCount}`;
-}
-
-createStatsPad();
-updateStatsPad();
+StatsPad.initialize();
 
 setupHowToPopup();
 
