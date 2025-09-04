@@ -4,7 +4,7 @@ import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValue
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
-import { incrementDeposit, incrementPerfectWithdrawal, incrementRejected, incrementWithdraw } from './gameStats.js';
+import { GameStatsManager } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
 import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
@@ -67,8 +67,7 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
     console.debug('Customer rejected');
     GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), false);
     SpeechBubble.rejectCustomer();
-    incrementRejected();
-    StatsPad.refresh();
+    GameStatsManager.incrementRejected();
     setTimeout(() => {
         spawnCustomer();
     }, 2000);
@@ -336,8 +335,7 @@ function closeDrawerLid() {
                 currentCustomer.deposit(customerTransactionSum);
                 SpeechBubble.satisfyCustomer();
                 GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
-                incrementDeposit();
-                StatsPad.refresh();
+                GameStatsManager.incrementDeposit();
                 setTimeout(() => {
                     spawnCustomer();
                 }, 2000);
@@ -357,15 +355,14 @@ function closeDrawerLid() {
         if (billValue == customerTransactionSum) {
             if (billsInDrawer.length === getFewestBillsForSum(customerTransactionSum)) {
                 console.log('Perfect Withdrawal (fewest bills possible)');
-                incrementPerfectWithdrawal();
+                GameStatsManager.incrementPerfectWithdrawal();
             }
             billsInDrawer.forEach(bill => bill.remove());
             billsInDrawer.length = 0;
             currentCustomer.withdraw(customerTransactionSum);
             SpeechBubble.satisfyCustomer();
             GoogleAnalytics.reportLevelEnd(customerTransactionType.toString(), true);
-            incrementWithdraw();
-            StatsPad.refresh();
+            GameStatsManager.incrementWithdraw();
             setTimeout(() => {
                 spawnCustomer();
             }, 2000);
@@ -405,8 +402,6 @@ document.addEventListener('mouseup', () => {
     isLidDragged = false;
     SoundPlayer.playLidClick();
 });
-
-StatsPad.initialize();
 
 setupHowToPopup();
 

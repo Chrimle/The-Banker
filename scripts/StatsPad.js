@@ -1,5 +1,3 @@
-import { loadGameStats } from "./gameStats.js";
-
 
 export class StatsPad {
 
@@ -48,17 +46,15 @@ export class StatsPad {
                 this.#statsPadElement.style.display = 'none';
             }
         });
-        this.refresh();
     }
 
-    static refresh() {
-        const gameStats = loadGameStats();
+    static refresh({ depositCount, withdrawCount, rejectedCount, perfectWithdrawalCount }) {
         const rows = this.#statsPadElement.querySelectorAll('.stats-pad-row');
-        rows[0].querySelector('.stats-pad-value').textContent = `${gameStats.depositCount}`;
-        rows[1].querySelector('.stats-pad-value').textContent = `${gameStats.withdrawCount}`;
-        rows[2].querySelector('.stats-pad-value').textContent = `${gameStats.depositCount + gameStats.withdrawCount}`;
-        rows[3].querySelector('.stats-pad-value').textContent = `${gameStats.rejectedCount}`;
-        rows[4].querySelector('.stats-pad-value').textContent = `${gameStats.perfectWithdrawalCount}`;
+        rows[0].querySelector('.stats-pad-value').textContent = `${depositCount}`;
+        rows[1].querySelector('.stats-pad-value').textContent = `${withdrawCount}`;
+        rows[2].querySelector('.stats-pad-value').textContent = `${depositCount + withdrawCount}`;
+        rows[3].querySelector('.stats-pad-value').textContent = `${rejectedCount}`;
+        rows[4].querySelector('.stats-pad-value').textContent = `${perfectWithdrawalCount}`;
     }
 
 }

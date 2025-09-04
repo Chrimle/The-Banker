@@ -1,3 +1,4 @@
+import { StatsPad } from "./StatsPad.js";
 
 const LSKEY_GAME_STATS = "gameStats";
 
@@ -55,7 +56,7 @@ function incrementStat(key, amount = 1) {
     return stats[key];
 }
 
-export function incrementWithdraw(amount = 1){
+export function incrementWithdraw(amount = 1) {
     return incrementStat(GAME_STAT_KEYS.WITHDRAW, amount);
 }
 
@@ -71,3 +72,32 @@ export function incrementPerfectWithdrawal(amount = 1) {
     return incrementStat(GAME_STAT_KEYS.PERFECT_WITHDRAW, amount);
 }
 
+export class GameStatsManager {
+
+    static {
+        const gameStats = loadGameStats();
+        console.debug("Loaded game stats:", gameStats);
+        StatsPad.initialize();
+        StatsPad.refresh(gameStats);
+    }
+
+    static incrementWithdraw() {
+        incrementWithdraw();
+        StatsPad.refresh(loadGameStats());
+    }
+
+    static incrementDeposit() {
+        incrementDeposit();
+        StatsPad.refresh(loadGameStats());
+    }
+
+    static incrementRejected() {
+        incrementRejected();
+        StatsPad.refresh(loadGameStats());
+    }
+
+    static incrementPerfectWithdrawal() {
+        incrementPerfectWithdrawal();
+        StatsPad.refresh(loadGameStats());
+    }
+}
