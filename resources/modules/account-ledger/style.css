@@ -36,6 +36,24 @@
     padding: 0;
 }
 
+/* 
+* First column (SSN) fits 11 chars. XXX-XX-XXXX
+*/
+#ledger-table th:nth-child(1),
+#ledger-table td:nth-child(1) {
+    width: 11ch;
+}
+
+/*
+* Third & Forth column (Balance & Loan) fits 14 chars. $-X,XXX,XXX.XX
+*/
+#ledger-table th:nth-child(3),
+#ledger-table td:nth-child(3),
+#ledger-table th:nth-child(4),
+#ledger-table td:nth-child(4) {
+    width: 14ch;
+}
+
 #ledger-table th {
     background-color: darkgoldenrod;
     font-weight: bold;
