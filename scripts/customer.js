@@ -1,5 +1,10 @@
 import { randomInt } from "./maths.js";
 
+/*
+* This multiplied by 1000 customers, will result in a $1M economy.
+*/
+export const INITIAL_CASH_ON_HAND = 1000;
+
 export const FIRST_NAMES = [
     "Andrew",
     "Brian",
@@ -74,12 +79,13 @@ export function generateLastName() {
 }
 
 export class Customer {
-    constructor(firstName, lastName, ssn, bankBalance = 0, loanAmount = 0) {
+    constructor(firstName, lastName, ssn, bankBalance = 0, loanAmount = 0, cashOnHand = 0) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ssn = ssn;
         this.bankBalance = bankBalance;
         this.loanAmount = loanAmount;
+        this.cashOnHand = cashOnHand;
     }
 
     hasSufficientFunds(amount) {
@@ -88,11 +94,13 @@ export class Customer {
 
     deposit(amount) {
         this.bankBalance += amount;
+        this.cashOnHand -= amount;
     }
 
     withdraw(amount) {
         //if (this.hasSufficientFunds(amount)) {
         this.bankBalance -= amount;
+        this.cashOnHand += amount;
         //    return true;
         //}
         // return false;
@@ -120,7 +128,7 @@ export class CustomerManager {
 
         const bankBalance = 0;
         const loanAmount = 0;
-        const customer = new Customer(firstName, lastName, ssn, bankBalance, loanAmount);
+        const customer = new Customer(firstName, lastName, ssn, bankBalance, loanAmount, INITIAL_CASH_ON_HAND);
         this.registerCustomer(customer);
         return customer;
     }
