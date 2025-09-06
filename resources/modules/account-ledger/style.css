@@ -1,0 +1,58 @@
+#ledger-box {
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    width: 400px;
+    border: 1px solid #444;
+    font-family: sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#ledger-header {
+    background: #333;
+    color: #fff;
+    padding: 4px;
+    cursor: move;
+    font-size: 12px;
+}
+
+.ledger-table-container {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#ledger-table {
+    border-collapse: collapse;
+    width: 100%;
+    color: black;
+}
+
+#ledger-table th,
+#ledger-table td {
+    background-color: lightgoldenrodyellow;
+    border: 1px solid #aaa;
+    padding: 0;
+}
+
+#ledger-table th {
+    background-color: darkgoldenrod;
+    font-weight: bold;
+    font-size: 11px;
+    text-align: center;
+}
+
+#ledger-table input {
+    width: 100%;
+    padding: 2px;
+    font-size: 11px;
+    border: none;
+    box-sizing: border-box;
+    background-color: lightgoldenrodyellow;
+}
+
+#ledger-table input:focus {
+    outline: 1px solid darkgoldenrod;
+    background-color: lightgoldenrodyellow;
+}

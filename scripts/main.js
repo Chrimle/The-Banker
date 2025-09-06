@@ -8,6 +8,7 @@ import { GameStatsManager } from './gameStats.js';
 import { TransferBox } from './TransferBox.js';
 import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
+import { insertAccountLedger } from '../resources/modules/account-ledger/script.js';
 
 const initialWidth = window.innerWidth;
 const initialHeight = window.innerHeight;
@@ -18,6 +19,8 @@ window.addEventListener("resize", () => {
         overlay.style.display = "flex";
     }
 });
+
+insertAccountLedger();
 
 const WEIGHTED_WITHDRAWALS = [
     { amount: 10, weight: 5 },
