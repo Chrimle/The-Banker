@@ -1,5 +1,7 @@
 import { randomInt } from "./maths.js";
 
+export const TOTAL_CUSTOMERS = 100;
+
 /*
 * This multiplied by 1000 customers, will result in a $1M economy.
 */
@@ -113,7 +115,7 @@ export class CustomerManager {
 
     static {
         // Pre-register some customers
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < TOTAL_CUSTOMERS; i++) {
             this.generateCustomer();
         }
     }
