@@ -61,4 +61,6 @@ export async function insertAccountLedger() {
         }
     });
     document.addEventListener("mouseup", () => dragging = false);
+
+    box.style.display = "block";
 }

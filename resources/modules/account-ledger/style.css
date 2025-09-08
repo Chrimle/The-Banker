@@ -8,6 +8,7 @@
     font-size: 12px;
     overflow: hidden;
     border-radius: 10px;
+    display: none;
 }
 
 #ledger-header {
