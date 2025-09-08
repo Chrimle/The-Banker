@@ -43,7 +43,6 @@ export async function insertAccountLedger() {
     for (let i = 0; i < 13; i++) addRow();
 
     const box = document.getElementById("ledger-box");
-    const header = document.getElementById("ledger-header");
     let offsetX = 0, offsetY = 0, dragging = false;
 
     box.addEventListener("mousedown", (e) => {
