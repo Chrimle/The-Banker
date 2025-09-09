@@ -1,6 +1,9 @@
-import { ANALYTICS_CONSENT, GOOGLE_ANALYTICS_ID } from "./constants.js";
 
 export class GoogleAnalytics {
+
+    static GOOGLE_ANALYTICS_ID = 'G-Q2GY2YN3PE';
+
+    static ANALYTICS_CONSENT = 'consented-analytics';
 
     static #gtag = null;
 
