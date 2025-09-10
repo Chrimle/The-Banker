@@ -1,6 +1,6 @@
 import { getNearestHorizontalRotation, getNearestVerticalRotation, randomInt } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getValueSum } from './bills.js';
+import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getRandomBillsForSum, getValueSum } from './bills.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
@@ -22,41 +22,9 @@ window.addEventListener("resize", () => {
 
 insertAccountLedger();
 
-const WEIGHTED_WITHDRAWALS = [
-    { amount: 10, weight: 5 },
-    { amount: 20, weight: 8 },
-    { amount: 30, weight: 12 },
-    { amount: 40, weight: 18 },
-    { amount: 50, weight: 25 },
-    { amount: 60, weight: 35 },
-    { amount: 70, weight: 50 },
-    { amount: 80, weight: 70 },
-    { amount: 90, weight: 90 },
-    { amount: 100, weight: 100 },
-    { amount: 120, weight: 90 },
-    { amount: 150, weight: 70 },
-    { amount: 180, weight: 50 },
-    { amount: 200, weight: 35 },
-    { amount: 250, weight: 25 },
-    { amount: 300, weight: 18 },
-    { amount: 350, weight: 12 },
-    { amount: 400, weight: 8 },
-    { amount: 450, weight: 5 },
-    { amount: 500, weight: 3 },
-    { amount: 600, weight: 2 },
-    { amount: 700, weight: 1 },
-    { amount: 800, weight: 1 },
-    { amount: 900, weight: 1 },
-    { amount: 1000, weight: 1 },
-];
-
-function getWeightedWithdrawal() {
-    const totalWeight = WEIGHTED_WITHDRAWALS.reduce((sum, w) => sum + w.weight, 0);
-    let r = Math.random() * totalWeight;
-    for (const w of WEIGHTED_WITHDRAWALS) {
-        if (r < w.weight) return w.amount;
-        r -= w.weight;
-    }
+// Create a pseudo random economy before starting
+for (let i = 0; i < 100; i++) {
+    CustomerManager.simulateEconomyTick();
 }
 
 let currentCustomer;
@@ -76,17 +44,18 @@ SpeechBubble.getRejectButton().addEventListener('click', function () {
 });
 
 function spawnCustomer() {
-    customerTransactionType = randomInt(0, 1) ? TransactionType.WITHDRAWAL : TransactionType.DEPOSIT;
-    GoogleAnalytics.reportLevelStart(customerTransactionType.toString());
+    CustomerManager.simulateEconomyTick();
     currentCustomer = CustomerManager.getRandomCustomer();
+    customerTransactionType = currentCustomer.getDesiredTransactionType();
+    GoogleAnalytics.reportLevelStart(customerTransactionType.toString());
     spawnIdCardForCurrentCustomer();
     if (customerTransactionType === TransactionType.WITHDRAWAL) {
-        customerTransactionSum = getWeightedWithdrawal();
+        customerTransactionSum = currentCustomer.getDesiredTransactionAmount();
         SpeechBubble.requestWithdraw(customerTransactionSum);
         SpeechBubble.showRejectButton();
     }
     if (customerTransactionType === TransactionType.DEPOSIT) {
-        customerTransactionSum = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
+        customerTransactionSum = currentCustomer.getDesiredTransactionAmount();
         SpeechBubble.requestDeposit(customerTransactionSum);
         if (!TransferBox.IS_LID_OPEN && !isLidDragged) {
             const billsInDrawer = Array.from(document.getElementById('table').querySelectorAll('.bill'))
@@ -177,15 +146,21 @@ function moveBillToTraySlot(bill, traySlot) {
     bill.dataset.rot = getNearestVerticalRotation(parseInt(bill.dataset.rot));
 }
 
-function spawnBillInDrawer({ delay = 0 } = {}) {
-    const newBill = createBill(customerTransactionSum);
-    moveBillToDrawer(newBill);
-    newBill.dataset.rot = "270";
-    updateBillVisual(newBill);
-    setTimeout(() => {
-        table.appendChild(newBill);
-    }, delay);
-    console.debug(`Deposit Sum: $${newBill.dataset.value}`);
+function spawnBillInDrawer() {
+    getRandomBillsForSum(customerTransactionSum)
+        .forEach(bill => {
+            bill.dataset.rot = "270";
+            moveBillToDrawer(bill);
+            updateBillVisual(bill);
+            bill.addEventListener('pointerdown', onPointerDown);
+            bill.addEventListener('pointerup', onPointerUp);
+            bill.addEventListener('dblclick', onDblClick);
+            bill.addEventListener('pointermove', onPointerMove);
+            bill.addEventListener('wheel', onWheel);
+            table.appendChild(bill);
+            zIndexCounter++;
+        })
+    console.debug(`Deposit Sum: $${customerTransactionSum}`);
     customerDeposited = true;
 }
 
@@ -322,7 +297,7 @@ function closeDrawerLid() {
     if (customerTransactionType === TransactionType.DEPOSIT) {
         if (customerDeposited === false) {
             if (billsInDrawer.length === 0) {
-                spawnBillInDrawer({ delay: 100 });
+                spawnBillInDrawer();
                 SpeechBubble.hideRejectButton();
                 return;
             } else {

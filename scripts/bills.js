@@ -1,3 +1,4 @@
+import { randomInt } from "./maths.js";
 
 export const BILL_DENOMINATIONS = [1, 2, 5, 10, 20, 50, 100];
 
@@ -41,4 +42,16 @@ export function getFewestBillsForSum(sum) {
         }
     }
     return numberOfBills;
+}
+
+export function getRandomBillsForSum(sum) {
+    const bills = [];
+    while (sum > 0) {
+        const denomination = BILL_DENOMINATIONS[randomInt(0, BILL_DENOMINATIONS.length - 1)];
+        if (denomination <= sum) {
+            bills.push(createBillWithValue(denomination));
+            sum -= denomination;
+        }
+    }
+    return bills;
 }
