@@ -101,12 +101,8 @@ export class Customer {
     }
 
     withdraw(amount) {
-        //if (this.hasSufficientFunds(amount)) {
         this.bankBalance -= amount;
         this.cashOnHand += amount;
-        //    return true;
-        //}
-        // return false;
     }
 }
 
