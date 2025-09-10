@@ -81,13 +81,14 @@ export function generateLastName() {
 }
 
 export class Customer {
-    constructor(firstName, lastName, ssn, bankBalance = 0, loanAmount = 0, cashOnHand = 0) {
+    constructor(firstName, lastName, ssn, bankBalance = 0, loanAmount = 0, cashOnHand = 0, hasAccount = true) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ssn = ssn;
         this.bankBalance = bankBalance;
         this.loanAmount = loanAmount;
         this.cashOnHand = cashOnHand;
+        this.hasAccount = hasAccount;
     }
 
     hasSufficientFunds(amount) {
