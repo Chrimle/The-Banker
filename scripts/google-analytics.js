@@ -18,7 +18,7 @@ export class GoogleAnalytics {
 
         let script = document.createElement('script');
         script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalytics.GOOGLE_ANALYTICS_ID}`;
         document.head.appendChild(script);
 
         script.onload = function () {
@@ -34,7 +34,7 @@ export class GoogleAnalytics {
                 'security_storage': 'granted'
             });
             gtag('js', new Date());
-            gtag('config', GOOGLE_ANALYTICS_ID);
+            gtag('config', GoogleAnalytics.GOOGLE_ANALYTICS_ID);
             GoogleAnalytics.setGtagFunction(gtag);
             GoogleAnalytics.updateAnalyticsStorageConsent();
         };
@@ -46,7 +46,7 @@ export class GoogleAnalytics {
 
     static updateAnalyticsStorageConsent() {
         console.log('Updating analytics_storage consent to', GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied');
-        
+
         this.#gtag('consent', 'update', {
             'analytics_storage': GoogleAnalytics.isAnalyticsConsented() ? 'granted' : 'denied'
         });
@@ -91,15 +91,15 @@ export class GoogleAnalytics {
     }
 
     static isAnalyticsConsented() {
-        return localStorage.getItem(ANALYTICS_CONSENT) === 'true';
+        return localStorage.getItem(GoogleAnalytics.ANALYTICS_CONSENT) === 'true';
     }
 
     static isAnalyticsConsentSet() {
-        return localStorage.getItem(ANALYTICS_CONSENT) !== null;
+        return localStorage.getItem(GoogleAnalytics.ANALYTICS_CONSENT) !== null;
     }
 
     static setAnalyticsConsented(consent) {
-        localStorage.setItem(ANALYTICS_CONSENT, consent ? 'true' : 'false');
+        localStorage.setItem(GoogleAnalytics.ANALYTICS_CONSENT, consent ? 'true' : 'false');
         this.updateAnalyticsStorageConsent();
     }
 }
