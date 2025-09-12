@@ -1,6 +1,6 @@
-import { getNearestHorizontalRotation, getNearestVerticalRotation, randomInt } from './maths.js';
+import { getNearestHorizontalRotation, getNearestVerticalRotation } from './maths.js';
 import { setupHowToPopup } from './how-to-popup.js';
-import { BILL_DENOMINATIONS, createBillWithValue, getFewestBillsForSum, getRandomBillsForSum, getValueSum } from './bills.js';
+import { getFewestBillsForSum, getRandomBillsForSum, getValueSum } from './bills.js';
 import { TransactionType } from './transactionType.js';
 import { SpeechBubble } from './SpeechBubble.js';
 import { SoundPlayer } from './SoundPlayer.js';
@@ -107,25 +107,6 @@ table.addEventListener('wheel', (e) => {
 
 let zIndexCounter = 1;
 let active = null;
-
-function createBill(value) {
-    const bill = createBillWithValue(value);
-    bill.addEventListener('pointerdown', onPointerDown);
-    bill.addEventListener('pointerup', onPointerUp);
-    bill.addEventListener('dblclick', onDblClick);
-    bill.addEventListener('pointermove', onPointerMove);
-    bill.addEventListener('wheel', onWheel);
-    return bill;
-}
-
-BILL_DENOMINATIONS.forEach((value) => {
-    const bill = createBill(value);
-    bill.dataset.rot = randomInt(0, 23) * 15;
-    bill.style.left = `${randomInt(0, 500)}px`;
-    bill.style.top = `${randomInt(200, 500)}px`;
-    table.appendChild(bill);
-    updateBillVisual(bill);
-});
 
 function moveBillToDrawer(bill) {
     const drawerBorders = TransferBox.getBoundingBox();
