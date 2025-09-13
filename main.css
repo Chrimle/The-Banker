@@ -460,6 +460,45 @@ footer a {
     border-top: 1px solid darkgray;
 }
 
+.receipt-dispenser {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 200px;
+    height: 100px;
+    background: #f3f3f3;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.receipt-dispenser-title {
+    background: #999999;
+    color: #333;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 9pt;
+    text-align: center;
+    width: auto;
+    padding: 3px;
+    box-sizing: border-box;
+    writing-mode: vertical-lr;
+    rotate: 180deg;
+}
+
+.receipt-dispenser-body {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.8em;
+    color: #666;
+    font-weight: bold;
+    overflow-y: auto;
+    text-align: center;
+    align-self: center;
+}
+
 .howto-popup {
     position: fixed;
     top: 0;

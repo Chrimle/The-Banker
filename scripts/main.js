@@ -367,6 +367,13 @@ document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
 
+export function cloneReceiptDispenserTemplate() {
+    return document.getElementById('receipt-dispenser-template').content.firstElementChild.cloneNode(true);
+}
+
+const receiptDispenser = cloneReceiptDispenserTemplate();
+table.appendChild(receiptDispenser);
+
 spawnCustomer();
 
 document.querySelector(".center").addEventListener('click', () => {
