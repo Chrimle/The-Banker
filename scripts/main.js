@@ -374,6 +374,12 @@ export function cloneReceiptDispenserTemplate() {
 const receiptDispenser = cloneReceiptDispenserTemplate();
 table.appendChild(receiptDispenser);
 
+export function cloneReceiptTemplate() {
+    return document.getElementById('receipt-template').content.firstElementChild.cloneNode(true);
+}
+const receipt = cloneReceiptTemplate();
+table.appendChild(receipt);
+
 spawnCustomer();
 
 document.querySelector(".center").addEventListener('click', () => {

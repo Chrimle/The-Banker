@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="clTJFxF74YZwcxBq03Dnjhb6co5dkxf0tCrehjvBTMM" />
     <meta name="copyright" content="© 2025 Chrimle. All rights reserved.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="version" content="207">
+    <meta name="version" content="208">
     <link rel="stylesheet" href="main.css">
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/consent.js"></script>
@@ -140,6 +140,32 @@
         <div class="receipt-dispenser">
             <div class="receipt-dispenser-title">RECEIPTS</div>
             <div class="receipt-dispenser-body">OUT OF STOCK</div>
+        </div>
+    </template>
+    <template id="receipt-template">
+        <div class="receipt">
+            <div class="receipt-row">
+                <label class="receipt-label">
+                    <span class="receipt-text">SSN:</span>
+                    <input type="text" class="receipt-input-ssn"/>
+                </label>
+            </div>
+            <div class="receipt-row">
+                <label class="receipt-label">
+                    <span class="receipt-text">Deposit:</span>
+                    <input type="radio" class="receipt-input-type" name="transactionType" value="DEPOSIT"/>
+                </label>
+                <label class="receipt-label">
+                    <span class="receipt-text">Withdraw:</span>
+                    <input type="radio" class="receipt-input-type" name="transactionType" value="WITHDRAW"/>
+                </label>
+            </div>
+            <div class="receipt-row">
+                <label class="receipt-label">
+                    <span class="receipt-text">Amount:</span>
+                    <input type="text" class="receipt-input-amount"/>
+                </label>
+            </div>
         </div>
     </template>
     <div id="howto-popup" class="howto-popup" hidden>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="512" height="512" role="img" aria-label="Bank logo">
+  <title>Bank logo — classical building</title>
+  <defs>
+    <style>
+      .fill { fill: #0b3553; }
+    </style>
+  </defs>
+
+  <!-- Pediment (roof) -->
+  <path class="fill" d="M128 360 L512 160 L896 360 Q904 368 896 376 L128 376 Q120 368 128 360 Z"/>
+
+  <!-- Entablature (horizontal band under pediment) -->
+  <rect class="fill" x="160" y="400" width="704" height="36" rx="6" />
+
+  <!-- Columns -->
+  <g transform="translate(0,0)">
+    <!-- left column -->
+    <rect class="fill" x="220" y="452" width="92" height="300" rx="18"/>
+    <rect class="fill" x="220" y="744" width="92" height="28" rx="9"/>
+    <!-- center column -->
+    <rect class="fill" x="466" y="452" width="92" height="300" rx="18"/>
+    <rect class="fill" x="466" y="744" width="92" height="28" rx="9"/>
+    <!-- right column -->
+    <rect class="fill" x="712" y="452" width="92" height="300" rx="18"/>
+    <rect class="fill" x="712" y="744" width="92" height="28" rx="9"/>
+  </g>
+
+  <!-- Base steps -->
+  <rect class="fill" x="160" y="796" width="704" height="28" rx="12"/>
+  <rect class="fill" x="120" y="836" width="784" height="36" rx="12"/>
+</svg>
