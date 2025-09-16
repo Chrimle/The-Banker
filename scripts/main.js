@@ -9,6 +9,7 @@ import { TransferBox } from './TransferBox.js';
 import { CustomerManager } from './customer.js';
 import { GoogleAnalytics } from './google-analytics.js';
 import { insertAccountLedger } from '../resources/modules/account-ledger/script.js';
+import { Receipt } from './Receipt.js';
 
 const initialWidth = window.innerWidth;
 const initialHeight = window.innerHeight;
@@ -377,8 +378,8 @@ table.appendChild(receiptDispenser);
 export function cloneReceiptTemplate() {
     return document.getElementById('receipt-template').content.firstElementChild.cloneNode(true);
 }
-const receipt = cloneReceiptTemplate();
-table.appendChild(receipt);
+
+Receipt.createHtmlElement(table);
 
 spawnCustomer();
 
