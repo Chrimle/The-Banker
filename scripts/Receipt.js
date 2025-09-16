@@ -4,6 +4,7 @@ export class Receipt {
     static createHtmlElement(tableHtmlElement) {
         const receipt = document.getElementById("receipt-template").content.firstElementChild.cloneNode(true);
         this.onSsnInput(receipt);
+        this.onAmountInput(receipt);
         tableHtmlElement.appendChild(receipt);
         return receipt;
     }
@@ -16,6 +17,21 @@ export class Receipt {
             if (digits.length > 5) out = digits.slice(0, 3) + "-" + digits.slice(3, 5) + "-" + digits.slice(5);
             else if (digits.length > 3) out = digits.slice(0, 3) + "-" + digits.slice(3);
             ssnInput.value = out;
+        });
+    }
+
+    static onAmountInput(receipt) {
+        const amountInput = receipt.querySelector(".receipt-input-amount");
+        amountInput.addEventListener("input", () => {
+            let val = amountInput.value;
+            // strip invalid chars
+            val = val.replace(/[^0-9.]/g, '');
+            // allow only first dot
+            let parts = val.split('.');
+            if (parts.length >= 2) {
+                val = parts[0] + "." + parts.slice(1).join('').slice(0, 2);
+            }
+            amountInput.value = val;
         });
     }
 
