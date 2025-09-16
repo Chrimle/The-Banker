@@ -516,6 +516,7 @@ footer a {
     flex-direction: column;
     display: flex;
     justify-content: space-between;
+    cursor: grab;
 }
 
 .receipt::before {
@@ -536,6 +537,7 @@ footer a {
     flex-direction: row;
     flex-wrap: nowrap;
     width: 100%;
+    cursor: inherit;
 }
 
 .receipt-label input {
@@ -545,6 +547,7 @@ footer a {
     border-left: none;
     border-right: none;
     border-bottom: 1px dotted #ccc;
+    cursor: pointer;
 }
 
 .receipt-label input:active,
