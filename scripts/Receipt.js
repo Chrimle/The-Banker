@@ -26,6 +26,8 @@ export class Receipt {
             let val = amountInput.value;
             // strip invalid chars
             val = val.replace(/[^0-9.]/g, '');
+            // limit length
+            val = val.slice(0, 13);
             // allow only first dot
             let parts = val.split('.');
             if (parts.length >= 2) {
