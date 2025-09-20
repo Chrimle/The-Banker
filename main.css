@@ -593,6 +593,15 @@ h3 {
     text-align: left;
 }
 
+.howto-popup-content a {
+    color: turquoise;
+    text-decoration: none;
+}
+
+.howto-popup-content a:hover {
+    text-decoration: underline;
+}
+
 .howto-popup-content h2 {
     text-align: center;
 }
